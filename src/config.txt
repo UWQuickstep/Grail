@@ -1,0 +1,8 @@
+VertexValType : INT
+MessageValType : INT
+InitiateVal : 0
+InitialMessage : (ALL,0)
+CombineMessage: MIN(message) * 2
+UpdateAndSend: setVal(cur.val)
+send(all, cur.val/out_cnts)
+End: (ITER,10)
