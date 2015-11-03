@@ -7,8 +7,8 @@ How to run Grail?
 The following instructions are for a Unix/Linux based machine:
 
 1. Clone the git Grail repository into your local machine using one of the following commands:
-  1. `git clone https://github.com/PangZhi/Grail.git` (or)
-  2. `git clone git@github.com:PangZhi/Grail.git`
+  1. `git clone https://github.com/adalbertgerald/Grail.git` (or)
+  2. `git clone git@github.com:adalbertgerald/Grail.git`
 
 2. Change your current working directory to "Grail" or any directory that you have downloaded the code into.
   `cd Grail`
