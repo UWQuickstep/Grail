@@ -1,6 +1,10 @@
 Grail
 ============================
-This project is aimed at generating runnable SQL queries for graph analytical queries.
+Code for the Grail method described in: http://pages.cs.wisc.edu/~jignesh/publ/Grail.pdf
+
+At a high level, you load your graph data into the vertex and the edge data below, and then run the code here to generate SQL to analyze the graphs. The code here generates SQL for SQL Server (which we had used in the original paper). 
+
+If you are interested in making this work with other databases, please let us know! 
 
 How to run Grail?
 -----------------------------------------------------------
@@ -43,7 +47,7 @@ We have two basic table : vertex and edge.
     }
     Primary key, indexes and other constraint may be added by user.
 
-The basic idea is that a graph analytics program(e.g. Shortest Path/PageRank/Connected Component) can be implemented in SQL database by using SQL joins and updates on relational tables. We want to provide a user-friendly way to generate SQL for graph analytics. The user will input a configuration file of specific format and the program will generate runnable sql.
+You will have to load your data into these two table. The basic idea is that a graph analytics program(e.g. Shortest Path/PageRank/Connected Component) can be implemented in SQL database by using SQL joins and updates on relational tables. We want to provide a user-friendly way to generate SQL for graph analytics. The user will input a configuration file of specific format and the program will generate runnable sql.
 
 Example configuration files
 ---------------------------
