@@ -47,7 +47,7 @@ public class InsertBlock extends Block {
     super(stage, indent);
     this.append("INSERT INTO " + targetTb);
     this.append("SELECT " + attr);
-    this.append("FROM " + fromTb);
+    this.append("FROM " + fromTb + ";");
     this.sql = this.sb.toString();
   }
 

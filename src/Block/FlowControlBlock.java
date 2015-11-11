@@ -46,7 +46,7 @@ public class FlowControlBlock extends Block {
                           String rhs) {
     super(stage, indent);
     this.append("IF (" + flowControl + ")");
-    this.append("Begin");
+    this.append("BEGIN");
     this.concat(lhs);
     this.append("END");
     this.append("ELSE");
