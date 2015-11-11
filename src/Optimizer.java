@@ -122,13 +122,13 @@ public class Optimizer {
                                            "EXEC SP_RENAME 'cur','cur_alias'"));
                     dropBlocks.add(new Block("dropcuralias",
                                              this.blocks.get(i).getIndentLevel(),
-                                             "DROP TABLE cur_alias"));
+                                             "DROP TABLE cur_alias;"));
                 }
                 break;
             }
         }
     }
-    blocks.add(0, new Block("intdropcuralias", 0, "DROP TABLE cur_alias"));
+    blocks.add(0, new Block("intdropcuralias", 0, "DROP TABLE cur_alias;"));
 
     // Get the combineMsg block.
     int combineMsgBlockIndex = 0;
