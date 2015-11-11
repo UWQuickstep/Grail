@@ -98,7 +98,7 @@ public class Optimizer {
    * @return The string of the SQL statement.
    */
   private String getCreateIdxSQL(String attr) {
-    return "CREATE INDEX idx_" + attr + " ON edge(" + attr + ")";
+    return "CREATE INDEX idx_" + attr + " ON edge(" + attr + ");";
   }
 
   /**
