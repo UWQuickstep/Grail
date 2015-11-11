@@ -49,7 +49,7 @@ public class EndWhileBlock extends Block {
     super(stage, indent);
     this.endStr  = endStr;
     if (endStr.equals("NO_MESSAGE")) {
-      this.append("SELECT @flag = COUNT (*) FROM " + counter);
+      this.append("SELECT @flag = COUNT (*) FROM " + counter + ";");
     } else {
       this.append("SET @flag = @flag - 1");
     }

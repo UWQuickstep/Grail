@@ -119,7 +119,7 @@ public class Optimizer {
                 } else {
                     blocks.set(i,new Block("renamecur",
                                            this.blocks.get(i).getIndentLevel(),
-                                           "EXEC SP_RENAME 'cur','cur_alias'"));
+                                           "EXEC SP_RENAME 'cur','cur_alias';"));
                     dropBlocks.add(new Block("dropcuralias",
                                              this.blocks.get(i).getIndentLevel(),
                                              "DROP TABLE cur_alias;"));
@@ -162,6 +162,7 @@ public class Optimizer {
                                   this.options.get("contentStr"));
     if (this.options.get("msgDir").equals("all")) {
       sendMsgBlock.append("GROUP BY id");
+      sendMsgBlock.append(";");
       sendMsg = sendMsgBlock.getSql();
       sendMsg = sendMsg.replace("SELECT *", "SELECT id, "
             + this.options.get("aggFunc").replace("message.val", "val")
