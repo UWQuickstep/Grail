@@ -98,7 +98,7 @@ public class Optimizer {
    * @return The string of the SQL statement.
    */
   private String getCreateIdxSQL(String attr) {
-    return "CREATE INDEX idx_" + attr + " ON edge(" + attr + ")";
+    return "CREATE INDEX idx_" + attr + " ON edge(" + attr + ");";
   }
 
   /**
@@ -119,16 +119,16 @@ public class Optimizer {
                 } else {
                     blocks.set(i,new Block("renamecur",
                                            this.blocks.get(i).getIndentLevel(),
-                                           "EXEC SP_RENAME 'cur','cur_alias'"));
+                                           "EXEC SP_RENAME 'cur','cur_alias';"));
                     dropBlocks.add(new Block("dropcuralias",
                                              this.blocks.get(i).getIndentLevel(),
-                                             "DROP TABLE cur_alias"));
+                                             "DROP TABLE cur_alias;"));
                 }
                 break;
             }
         }
     }
-    blocks.add(0, new Block("intdropcuralias", 0, "DROP TABLE cur_alias"));
+    blocks.add(0, new Block("intdropcuralias", 0, "DROP TABLE cur_alias;"));
 
     // Get the combineMsg block.
     int combineMsgBlockIndex = 0;
@@ -162,6 +162,7 @@ public class Optimizer {
                                   this.options.get("contentStr"));
     if (this.options.get("msgDir").equals("all")) {
       sendMsgBlock.append("GROUP BY id");
+      sendMsgBlock.append(";");
       sendMsg = sendMsgBlock.getSql();
       sendMsg = sendMsg.replace("SELECT *", "SELECT id, "
             + this.options.get("aggFunc").replace("message.val", "val")

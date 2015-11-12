@@ -40,7 +40,7 @@ public class DropTableBlock extends Block {
    */
   public DropTableBlock(String stage, int indent, String tbName) {
     super(stage, indent);
-    this.append("DROP TABLE " + tbName);
+    this.append("DROP TABLE " + tbName + ";");
     this.sql = this.sb.toString();
   }
 

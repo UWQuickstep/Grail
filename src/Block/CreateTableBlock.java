@@ -50,7 +50,7 @@ public class CreateTableBlock extends Block {
     for (String attr : attrs) {
       this.append(attr + ",", indent + 1);
     }
-    this.append(")");
+    this.append(")" + ";");
     this.sql = this.sb.toString();
   }
 

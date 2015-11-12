@@ -45,7 +45,7 @@ public class CombineMsgBlock extends Block {
     this.aggFunc = aggFunc;
     this.append("SELECT message.id as id, " + aggFunc + " as val");
     this.append("INTO cur");
-    this.append("FROM message");
+    this.append("FROM message" + ";");
     this.sql = this.sb.toString();
   }
 
