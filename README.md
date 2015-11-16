@@ -66,7 +66,7 @@ Attributes of configuration file explained
 3. InitiateVal: The initial value of the vertices. For example, if the vertices have int value, the initial value could be zero.
 4. Initial Message: The initial messages to all or specific vertices. (ALL, value) and (some_vertex_id, value) is used for sendind the initial message to all vertices and to a specific vertex respectively.
 5. CombineMessage: The way to do aggregation on messages. The message will be automatically grouped on the destination vertex id. The aggregation should be supported by the RDBMS. It can be MIN, MAX, or UDAF. The UDAF should be defined first.
-6. UpdateAndSend: The updateandsend part can be combination of mutate values, send messages and flow control.
+6. UpdateAndSend: The updateandsend part can be a combination of one or more of the following actions: mutate values, send messages, and flow control.
 7. End: NO_MESSAGE or (ITER, max_iterations) - NO_MESSAGE terminates the graph computation, when there are no more messages remaining to be processed. (ITER, max_iterations) terminates the program after max_iterations number of iterations.
 
 
