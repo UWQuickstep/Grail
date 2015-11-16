@@ -33,8 +33,8 @@ import Block.Block;
 /**
  * @brief This class is used to generate T-SQL for graph processing programs.
  * Example:
- * // The value type of the vertex. It should be the type supported by the
- * // RDBMS, such as INT, FLOAT.
+ * // The value type of the vertex. It should be a type supported by the
+ * // RDBMS, such as INT, FLOAT, etc.
  * VertexValType : INT
  * // The value type of the message.
  * MessageValType : INT

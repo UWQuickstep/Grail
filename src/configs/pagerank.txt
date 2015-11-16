@@ -1,4 +1,4 @@
-VertexValType : float 
+VertexValType : float
 MessageValType : float
 InitiateVal : 0.15
 InitialMessage : (ALL,0.15)
