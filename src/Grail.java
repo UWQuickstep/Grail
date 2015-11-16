@@ -33,8 +33,8 @@ import Block.Block;
 /**
  * @brief This class is used to generate T-SQL for graph processing programs.
  * Example:
- * // The value type of the vertex. It should be the type supported by the
- * // RDBMS, such as INT, FLOAT.
+ * // The value type of the vertex. It should be a type supported by the
+ * // RDBMS, such as INT, FLOAT, etc,.a
  * VertexValType : INT
  * // The value type of the message.
  * MessageValType : INT
@@ -47,7 +47,7 @@ import Block.Block;
  * // grouped on the destination vertex id. The aggregation should be supported
  * // by the RDBMS. It can be MIN, MAX, or UDAF (Please first define the UDAF).
  * CombineMessage: MIN(message) * 2
- * // The UpdateAndSend part can be combination of mutate values, send messages
+ * // the updateandsend part can be combination of mutate values, send messages
  * // and flow control.
  * UpdateAndSend:
  * // Generate a variable called update. getVal() returns the current value of
