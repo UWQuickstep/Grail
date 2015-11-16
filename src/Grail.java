@@ -47,7 +47,7 @@ import Block.Block;
  * // grouped on the destination vertex id. The aggregation should be supported
  * // by the RDBMS. It can be MIN, MAX, or UDAF (Please first define the UDAF).
  * CombineMessage: MIN(message) * 2
- * // the UpdateAndSend part can be combination of mutate values, send messages
+ * // The UpdateAndSend part can be combination of mutate values, send messages
  * // and flow control.
  * UpdateAndSend:
  * // Generate a variable called update. getVal() returns the current value of
