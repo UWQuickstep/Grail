@@ -36,6 +36,7 @@ import java.util.regex.Pattern;
 import Block.BeginWhileBlock;
 import Block.Block;
 import Block.CreateTableBlock;
+import Block.DropIndexBlock;
 import Block.DropTableBlock;
 import Block.EndWhileBlock;
 import Block.InsertBlock;
@@ -606,13 +607,16 @@ public class Translator {
    * @brief Init.
    */
   private void init() {
-    // Copy Vertex table.
-     this.blocks.add(
-         new DropTableBlock("initdropcur", this.indentLevel, "cur"));
-     this.blocks.add(
-         new DropTableBlock("initdropmsg", this.indentLevel, "message"));
-     this.blocks.add(
-         new DropTableBlock("initdropnext", this.indentLevel, "next"));
+    this.blocks.add(
+        new DropTableBlock("initdropcur", this.indentLevel, "cur"));
+    this.blocks.add(
+        new DropTableBlock("initdropmsg", this.indentLevel, "message"));
+    this.blocks.add(
+        new DropTableBlock("initdropnext", this.indentLevel, "next"));
+    this.blocks.add(
+        new DropTableBlock("initdropout_cnts", this.indentLevel, "out_cnts"));
+    this.blocks.add(
+    	new DropIndexBlock("initdropind_src", this.indentLevel, "idx_src", "edge"));
     this.copyVertex();
 
     String initMsg = options.get("InitialMessage");
