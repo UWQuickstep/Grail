@@ -613,6 +613,8 @@ public class Translator {
          new DropTableBlock("initdropmsg", this.indentLevel, "message"));
      this.blocks.add(
          new DropTableBlock("initdropnext", this.indentLevel, "next"));
+     this.blocks.add(
+         new DropIndexBlock("initdropindex", this.indentLevel, "idx_src", "edge");
     this.copyVertex();
 
     String initMsg = options.get("InitialMessage");
