@@ -125,8 +125,6 @@ public class SelectIntoBlock extends Block {
       this.append("GROUP BY " + groupBy);
     }
 
-    // this.append(";");
-
     this.sql = this.sb.toString();
   }
 

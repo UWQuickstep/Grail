@@ -1,7 +1,7 @@
 VertexValType : float
 MessageValType : float
 InitiateVal : 0
-InitialMessage : (1,0)
+InitialMessage : (ALL,0)
 CombineMessage: SUM(message)
 UpdateAndSend:setVal(getAggregationVal()*0.85+0.15)
 send(out, getAggregationVal()/out_cnts.cnt)
