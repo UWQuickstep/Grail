@@ -433,7 +433,7 @@ public class Translator {
       String stat = statements[i];
       switch (this.getStatementType(stat)) {
         case BEGIN_IF: {
-          // TODO： Currently the if just support single flow control. But it's
+          // TODO(Jing): Currently the if just support single flow control. But it's
           // easy to support things like
           // if (isBig AND isSmall), if (isBig Or isSmall)
           contexts.push(context);
@@ -547,7 +547,7 @@ public class Translator {
 
     ArrayList<String> attrList = new ArrayList<String>();
     attrList.add("id AS id");
-    attrList.add(initVal + " AS val");
+    attrList.add("CAST(" + initVal + " AS "+ this.options.get("VertexValType") + ")" + " AS val");
     ArrayList<String> fromList = new ArrayList<String>();
     fromList.add("vertex");
 
@@ -575,7 +575,7 @@ public class Translator {
       fromList.add("vertex");
       this.blocks.add(new InsertBlock("initMsg", // The stage string.
                                       this.indentLevel, // The indent level.
-                                      "*, " + attrs[1], // The attribute string.
+                                      "*, " + "CAST(" + attrs[1] + " as " + this.options.get("MessageValType") + ")", // The attribute string.
                                       "message", // The new table.
                                       "vertex")); // The from table.
     } else {
@@ -584,8 +584,8 @@ public class Translator {
                                 // The SQL.
                                 "INSERT INTO message VALUES(" + attrs[0]
                                                               + ", "
-                                                              + attrs[1]
-                                                              + ")"));
+                                                              + "CAST(" + attrs[1] + " as " + this.options.get("MessageValType") + ")"
+                                                              + ");"));
     }
 
   }
@@ -616,7 +616,11 @@ public class Translator {
     this.blocks.add(
         new DropTableBlock("initdropoutcnts", this.indentLevel, "out_cnts"));
     this.blocks.add(
-        new DropIndexBlock("initdropindex", this.indentLevel, "idx_src", "edge"));
+        new DropTableBlock("initdroptoupdate", this.indentLevel, "toupdate"));
+    this.blocks.add(
+        new DropIndexBlock("initdropsrcindex", this.indentLevel, "idx_src", "edge"));
+    this.blocks.add(
+        new DropIndexBlock("initdropdestindex", this.indentLevel, "idx_dest", "edge"));
     
     // Copy Vertex table.
     this.copyVertex();
