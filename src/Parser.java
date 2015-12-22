@@ -48,7 +48,7 @@ public class Parser {
       for (int i = 0; i < splitArray.length; ++i) {
         splitArray[i] = splitArray[i].trim();
       }
-      assert(splitArray.length <= 1);
+      
       // Usually UpdateAndSend section has multiple lines.
       // If no ":" can be found, it should be a continuation of
       // UpdateAndSend.

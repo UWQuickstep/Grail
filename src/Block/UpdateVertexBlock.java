@@ -53,6 +53,11 @@ public class UpdateVertexBlock extends Block{
     this.append("UPDATE next SET next.val = " + valueExpression);
     this.append("FROM next, " + otherTable);
     this.append("WHERE next.id = " + otherTable + ".id" + ";");
+    
+    this.append("UPDATE cur SET cur.val = next.val");
+    this.append("FROM next, cur");
+    this.append("WHERE next.id = cur.id;");
+    
     this.sql = this.sb.toString();
   }
 

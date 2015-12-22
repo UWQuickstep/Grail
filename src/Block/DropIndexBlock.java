@@ -28,19 +28,20 @@ THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package Block;
 
 /**
- * @brief The SQL block for dropping a table.
+ * @brief The SQL block for dropping an index.
  */
-public class DropTableBlock extends Block {
+public class DropIndexBlock extends Block {
 
   /**
    * @brief Constructor.
    * @param stage The string indicate the stage of this code block.
    * @param indent The indent level.
-   * @param tbName The name of the table that should be dropped.
+   * @param index The name of the index to be dropped.
+   * @param tbName The name of the table containing the index.
    */
-  public DropTableBlock(String stage, int indent, String tbName) {
+  public DropIndexBlock(String stage, int indent, String index, String tbName) {
     super(stage, indent);
-    this.append("IF OBJECT_ID('dbo."+ tbName +"', 'U') IS NOT NULL DROP TABLE " + tbName + ";");
+    this.append("DROP INDEX " + index + " ON " + tbName + ";");
     this.sql = this.sb.toString();
   }
 
