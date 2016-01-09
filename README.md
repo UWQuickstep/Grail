@@ -2,8 +2,7 @@ Grail
 ============================
 Code for the Grail method described in: http://pages.cs.wisc.edu/~jignesh/publ/Grail.pdf
 
-At a high level, you load your graph data into the vertex and the edge data below, and then run the code here to generate SQL to analyze the graphs. The code here generates T-SQL (for Microsoft SQL Server, which we had used in the original paper). 
-
+At a high level, you load graph data into the `vertex` and the `edge` tables below, and then run the code here to generate SQL to analyze the graphs. The code here generates T-SQL (for Microsoft SQL Server, which we had used in the original paper). 
 If you are interested in making this work with other databases, please let us know! 
 
 How to run Grail?
@@ -11,19 +10,25 @@ How to run Grail?
 The following instructions are for a Unix/Linux based machine:
 
 1. Clone the git Grail repository into your local machine using one of the following commands:
-  1. `git clone https://github.com/adalbertgerald/Grail.git` (or)
-  2. `git clone git@github.com:adalbertgerald/Grail.git`
+  
+`git clone https://github.com/adalbertgerald/Grail.git` (or)
 
-2. Change your current working directory to "Grail" or any directory that you have downloaded the code into.
+`git clone git@github.com:adalbertgerald/Grail.git`
+
+2. Change your current working directory to `Grail`.
+
   `cd Grail`
 
 3. Change directory to "src" to browse through the code or to compile and run the code.
+
   `cd src`
 
-4. Compile the java code using the following command: (Hopefully compilation will have no issues!)
+4. Compile the java code using the following command. Note you will need to [install Java](https://java.com/en/download/help/index_installing.xml "Java Install Page") on your machine.
+
   `javac *.java`
 
 5. Run the Grail code, in any of the following ways: (`config.txt` is used as the default configuration file, if no config file is given)
+
   - `java Grail` (uses the default configuration file `config.txt`)
   - `java Grail configs/pagerank.txt` (to generate the T-SQL for a pagerank graph program)
   - `java Grail configs/sssp.txt` (to generate the T-SQL for a Single Source Shortest Path(SSSP) graph program)
@@ -33,19 +38,25 @@ The following instructions are for a Unix/Linux based machine:
 
 Basic Tables
 ---------------------------
-We have two basic table : vertex and edge.
+We have two basic tables: `vertex` and `edge`.
 
-    vertex is created by :
+The vertex table is created in SQL as:
+
+```sql
     CREATE TABLE vertex {
       vertex_id INT
     }
+```
 
-    edge is created by :
+The edge table is created as:
+```sql
     CREATE TABLE edge {
       src_id INT,
       dest_id INT
     }
-    Primary key, indexes and other constraint may be added by user.
+```
+
+Additional primary key, indices and other constraints can also be added to the schema creating commands above.
 
 You will have to load your graph data into these two tables. 
 
