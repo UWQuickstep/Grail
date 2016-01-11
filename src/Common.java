@@ -1,7 +1,6 @@
-/*
 /**
  * This file copyright (c) 2015-2016, Jing Fan, Adalbert Gerald Soosai Raj, and Jignesh M. Patel
- * All rights reserved.
+ * 
  * See the file CREDITS.txt in the root directory for details.
  **/
  
