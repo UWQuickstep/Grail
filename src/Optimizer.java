@@ -172,7 +172,12 @@ public class Optimizer {
     } else {
       sendMsg = sendMsg.replace(this.options.get("contentStr"), aggFunc);
     }
-    sendMsg = sendMsg.replace("cur", "cur_alias");
+    if (this.options.get("isSender").equals("all")
+        && this.options.get("setValNewVal").equals("cur.val")) {
+      sendMsg = sendMsg.replace("cur", "next");
+    } else {
+        sendMsg = sendMsg.replace("cur", "cur_alias");
+    }
     sendMsg = sendMsg.replace("INTO message", "INTO cur");
     // Merge these two parts.
     Block setIsFirstBlock = new Block("setIsFirst", indent, "SET @isFirst = 0");
@@ -230,6 +235,12 @@ public class Optimizer {
       }
       this.blocks.remove(idx);
       this.blocks.add(idx, new InsertUpdateBlock(block));
+      for (idx = 0; idx < this.blocks.size(); ++idx) {
+        if (this.blocks.get(idx).getStage().equals("dropcur")) {
+          this.blocks.remove(idx);
+          break;
+        }
+      }
     }
   }
 
@@ -238,7 +249,7 @@ public class Optimizer {
    */
   public void run() {
     this.createIdx();
-    this.mergeSendCombineMsg();
     this.allSender();
+    this.mergeSendCombineMsg();
   }
 }

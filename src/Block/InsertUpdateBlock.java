@@ -49,7 +49,8 @@ public class InsertUpdateBlock extends Block {
     this.append("WHERE NOT EXISTS (");
     this.append("  SELECT * FROM " + otherTable);
     this.append("  WHERE " + otherTable + ".id = next.id)");
-    this.append("EXEC SP_RENAME '"+ otherTable +"' 'next'" + ";");
+    this.append("DROP TABLE next;");
+    this.append("EXEC SP_RENAME '"+ otherTable +"','next'" + ";");
     this.sql = this.sb.toString();
   }
 
