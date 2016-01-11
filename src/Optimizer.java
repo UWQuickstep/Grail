@@ -176,7 +176,7 @@ public class Optimizer {
         && this.options.get("setValNewVal").equals("cur.val")) {
       sendMsg = sendMsg.replace("cur", "next");
     } else {
-        sendMsg = sendMsg.replace("cur", "cur_alias");
+      sendMsg = sendMsg.replace("cur", "cur_alias");
     }
     sendMsg = sendMsg.replace("INTO message", "INTO cur");
     // Merge these two parts.
