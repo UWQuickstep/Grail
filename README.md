@@ -8,9 +8,7 @@ If you are interested in making this work with other databases, please let us kn
 How to run Grail?
 -----------------------------------------------------------
 
-1. Clone the git Grail repository into your local machine using one of the following commands:
-  * `git clone https://github.com/adalbertgerald/Grail.git` (or)
-  * `git clone git@github.com:adalbertgerald/Grail.git`
+1. Clone the [git Grail repository](https://github.com/UWQuickstep/Grail.git "Grail git location") into your local machine.
 
 2. Change your current working directory to `Grail`.
   * `cd Grail`
@@ -18,7 +16,7 @@ How to run Grail?
 3. Change directory to "src" to browse through the code or to compile and run the code.
   * `cd src`
 
-4. Compile the java code using the following command. Note you will need to [install Java](https://java.com/en/download/help/index_installing.xml "Java Install Page") on your machine.
+4. Compile the java code using the following command. Note you will need to [install Java](https://java.com "Java Install Page") on your machine.
   * `javac *.java`
 
 5. Run the Grail code, in any of the following ways: (`config.txt` is used as the default configuration file, if no config file is given)
