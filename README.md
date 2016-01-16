@@ -63,7 +63,7 @@ sssp.txt -- single source shortest path algorithm
 
 wcc.txt -- weakly connected component algorithm
 
-Attributes of configuration file explained
+Here is a description of the attributes in the configuration file 
 ------------------------------------------
 1. VertexValueType: The type of value that a vertex represents. It should be one of the types supported by the RDBMS. Examples: int, float, etc.
 2. MessageValueType: The type of messages that a vertex can send and receive. It should also be one of the types supported by the RDBMS. Examples: int, float, etc.
@@ -72,3 +72,4 @@ Attributes of configuration file explained
 5. CombineMessage: The way to do aggregation on messages. The message will be automatically grouped on the destination vertex id. The aggregation should be supported by the RDBMS. It can be MIN, MAX, or UDAF. The UDAF should be defined first.
 6. UpdateAndSend: The updateandsend part can be a combination of one or more of the following actions: mutate values, send messages, and flow control.
 7. End: NO_MESSAGE or (ITER, max_iterations) - NO_MESSAGE terminates the graph computation, when there are no more messages remaining to be processed. (ITER, max_iterations) terminates the program after max_iterations number of iterations.
+
