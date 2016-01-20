@@ -86,7 +86,7 @@ public class Grail {
 
   /**
    * @brief Main function.
-   * @param args The argument number can be either 0 (use config.txt as
+   * @param args The argument number can be either 0 (use config.grail as
    * default) or 1 (input file name).
    */
   public static void main(String[] args) {
@@ -95,7 +95,7 @@ public class Grail {
     if (args.length == 1) {
       grail = new Grail(args[0]);
     } else {
-      grail = new Grail("config.txt");
+      grail = new Grail("config.grail");
     }
     grail.run();
     for (Block block : grail.getBlocks()) {
