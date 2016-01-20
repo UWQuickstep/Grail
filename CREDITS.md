@@ -2,6 +2,7 @@ The initial authors of the Grail package are:
 
 * Jing Fan
 * Adalbert Gerald Soosai Raj
+* Siddharth Suresh
 * Jignesh M. Patel
 
 The original work was performed at the University of Wisconsin--Madison. 
