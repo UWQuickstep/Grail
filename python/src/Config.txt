@@ -1,0 +1,11 @@
+VertexValType : INT 
+MessageValType : INT
+InitiateVal : INT_MAX
+InitialMessage : (ALL,id)
+CombineMessage: MIN(message)
+UpdateAndSend:toupdate=getAggregationVal()<getVal()
+if (toupdate) {
+setVal(getAggregationVal())
+send(all, getAggregationVal())
+}
+End: NO_MESSAGE
