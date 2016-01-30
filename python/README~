@@ -1,0 +1,29 @@
+BASIC STEPS TO GET GRAIL (PYTHON) WORKING 
+
+1. Install postgres-9.3 and pgadmin3: Please use this link: http://www.indjango.com/ubuntu-install-postgresql-and-pgadmin/
+2. Git Clone the Grail repository from the url: https://github.com/UWQuickstep/Grail
+
+SETTING UP POSTGRESSQL 
+3. Start the postgres database server by running the command "sudo service postgresql start".
+4. Change user by typing "su - postgres" in the shell
+5. Enter a new password say <password>
+
+RUNNING THE GRAIL CODE
+4. Now inside the "Grail" directory, cd into the "Python" directory and run the code "Main.py" using the command "python Main.py" (assuming python has already been installed in the system).
+5. Now copy and save the output of the python code.
+
+EXECUTING THE GENERATED POSTGRESQL STATEMENTS
+6. Open shell and start pgadmin3 by just typing "pgadmin3" and press enter.
+7. In order to connect to the database server, use the following
+        Name: localhost
+        Host: localhost
+        Port: 5432
+        Maintanence DB: postgres
+        UserName DB: postgres
+        Password: <password>
+8. Once you connect to the DB, do the following in the same schema or create a new schema
+   - Create Edge and vertex tables as explained in the Grail Java Readme
+   - Run the Generated SQL statements
+        
+
+

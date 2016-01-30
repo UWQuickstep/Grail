@@ -1,6 +1,6 @@
-from src.ConfigParser import ConfigParser
-from src.Translator import Translator
-from src.Optimizer import Optimizer
+from ConfigParser import ConfigParser
+from Translator import Translator
+from Optimizer import Optimizer
 class Grail:
     '''
     Class that contains functions to generate grail blocks
