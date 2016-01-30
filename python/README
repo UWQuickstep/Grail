@@ -9,7 +9,7 @@ SETTING UP POSTGRESSQL
 5. Enter a new password say <password>
 
 RUNNING THE GRAIL CODE
-4. Now inside the "Grail" directory, cd into the "Python" directory and run the code "Main.py" using the command "python Main.py" (assuming python has already been installed in the system).
+4. Now inside the "Grail" directory, cd into the "Python/src" directory and run the code "Main.py" using the command "python Main.py" (assuming python has already been installed in the system).
 5. Now copy and save the output of the python code for later execution.
 
 EXECUTING THE GENERATED POSTGRESQL STATEMENTS
