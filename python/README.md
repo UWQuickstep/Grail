@@ -33,23 +33,26 @@ Now you are in the virtual machine shell in a guest OS that is running in your a
 
 Change the postgres user password to "postgres". This password might be required in future.
 Run the following command:
+
        1. sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'postgres';"
 
 
 Now we have to execute the Grail Python script to generate the output.
+
        2. cd /Grail/python/src
-      
        3. python Main.py -i <inputfile> -o <grail outputfile>
        Example: 
            python Main.py -i ../../configs/sssp.txt -o output
 
 
 Change user to postgres and create database Grail and connect to it
+
        4. sudo -su postgres
        5. createdb Grail
        6. psql Grail
 
 Generate vertex and edge tables
+
        7. \i <sql file to generate edge table>
        8. \i <sql file to generate vertex table>
      Example:
@@ -61,14 +64,15 @@ Generate vertex and edge tables
 
      
 
-Now run the sql for the graph algorithm on the vertex and edge tables by executing the generated Grail output  
-      9. \i <grail output file>
+Now run the sql for the graph algorithm on the vertex and edge tables by executing the generated Grail output 
 
-    Example:  
-         \i /Grail/python/src/output
+      9. \i <grail output file>
+          Example: 
+               \i /Grail/python/src/output
 
 Some Additional Info:
   From within the psql prompt:
+  
        \q : Exit psql shell
        \dt : View current tables from within psql shell
   exit: To change user back to root user (vagrant)
