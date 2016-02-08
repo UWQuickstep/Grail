@@ -1,7 +1,7 @@
 # Basic Vagrant config (API version 2)
 Vagrant.configure(2) do |config|
 
-  # Base box: Centos-7 box
+  # Base box: Ubuntu box
   # NOTE: Over time the VMI below may become outdated, so may need to be 
   #       substituted with a more recent VMI
   config.vm.box = "ubuntu/trusty64"
@@ -14,12 +14,14 @@ Vagrant.configure(2) do |config|
   end
 
   # Make the GPDB code folder will be visible as /gpdb in the virtual machine 
-  config.vm.synced_folder "../../.", "/grail"
+  config.vm.synced_folder "../../.", "/Grail"
 
   # Install packages that are needed to build and run GPDB
   config.vm.provision "shell", inline: <<-INSTALL
     # install postgres
-    sudo apt-get -y install postgresql-9.3
+   sudo apt-get -y update
+   sudo apt-get -y install postgresql postgresql-contrib
+ 
   INSTALL
 
 end

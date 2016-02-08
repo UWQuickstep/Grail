@@ -30,5 +30,5 @@ class EndWhileBlock(Block):
         else:
             self.append("flag := flag - 1;") 
         self.append("END LOOP;",indent-1)
-        self.append("\nEND$$")
+        self.append("\nEND $$;")
         self.sql=self.sb            

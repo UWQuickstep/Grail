@@ -49,9 +49,15 @@ class Block(object):
         returs the stage
         '''
         return self.stage
-    def getSql(self):
+    
+    def getBlockSql(self):
         '''
         returns the sql statements
+        '''
+        return self.sql
+    def getSql(self):
+        '''
+        returns the sql string buffer statements
         '''
         self.sql=self.sb
         return self.sql
