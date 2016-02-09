@@ -1,8 +1,0 @@
-VertexValType : float
-MessageValType : float
-InitiateVal : 0
-InitialMessage : (ALL,0)
-CombineMessage: SUM(message)*0.85 + 0.15
-UpdateAndSend:setVal(getAggregationVal())
-send(out, getAggregationVal()/out_cnts.cnt)
-End: (ITER, 50)
