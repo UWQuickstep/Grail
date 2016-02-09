@@ -66,29 +66,26 @@ createdb Grail
 psql Grail
 ```
 
-Recall from the [original Grail paper](http://pages.cs.wisc.edu/~jignesh/publ/Grail.pdf), that Grail expects
+You should now be in the `psql` shell.
 
-http://pages.cs.wisc.edu/~jignesh/publ/Grail.pdf.
+Now, recall from the [original Grail paper](http://pages.cs.wisc.edu/~jignesh/publ/Grail.pdf), that Grail expects the graph data to be loaded in two tables: A `vertex` table and an `edge` table. Let us create these tables. We can do that by using the `\i` command. The general syntax for that is `\i <script-to-run>`. Let us create the table using the following command (typed into the `psql` shell):
 
+```shell
+\i /Grail/datagen/sssp/create_and_load_edge.sql
+\i /Grail/datagen/sssp/create_and_load_vertex.sql
+```
 
-Let us generate the `vertex` and `edge` tables. 
+Alternatively, to generated weighted graph data, you can type in:
 
-       7. \i <sql file to generate edge table>
-       8. \i <sql file to generate vertex table>
-     Example:
-          \i /Grail/datagen/sssp/create_and_load_edge.sql
-          \i /Grail/datagen/sssp/create_and_load_vertex.sql
-                             OR
-          \i /Grail/datagen/generate_weightedgraph_tables.sql 
-                    
+```shell
+\i /Grail/datagen/generate_weightedgraph_tables.sql 
+```                    
 
-     
+Now run the SQL script to execute the graph algorithm. Once again in the `psql` shell type in: 
 
-Now run the sql for the graph algorithm on the vertex and edge tables by executing the generated Grail output 
-
-      9. \i <grail output file>
-          Example: 
-               \i /Grail/python/src/output
+```shell
+\i /Grail/python/src/output
+```
 
 Some Additional Info:
   From within the psql prompt:
@@ -96,10 +93,3 @@ Some Additional Info:
        \q : Exit psql shell
        \dt : View current tables from within psql shell
   exit: To change user back to root user (vagrant)
-
-
-
-
-
-
-
