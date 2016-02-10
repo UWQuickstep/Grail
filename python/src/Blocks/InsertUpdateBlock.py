@@ -18,7 +18,7 @@ class InsertUpdateBlock(Block):
         self.append("FROM next")
         self.append("WHERE NOT EXISTS (")
         self.append("  SELECT * FROM " + self.otherTable)
-        self.append("  WHERE " + self.otherTable + ".id = next.id)")
+        self.append("  WHERE " + self.otherTable + ".id = next.id);")
         self.append("DROP TABLE next;")
-        self.append("ALTER TABLE "+ self.otherTable +" RENAME TO"+next+ ";")
+        self.append("ALTER TABLE "+ self.otherTable +" RENAME TO next;")
         self.sql = self.sb
