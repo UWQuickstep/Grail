@@ -68,76 +68,6 @@ createdb Grail
 psql Grail
 ```
 
-You should now be in the `p**<h3>1. Setup VirtualBox and Vagrant</h3>**
-
-You need to setup both VirtualBox and Vagrant. If you don't have these installed already, then head over to https://www.virtualbox.org/wiki/Downloads and http://www.vagrantup.com/downloads to download and then install them.
-
-**<h3>2. Clone Grail code from github</h3>**
-
-Go to the directory in your machine where you want to check out the Grail code, and clone the Grail DB code by typing the following command into a terminal window.
-
-```shell
-git clone https://github.com/UWQuickstep/Grail.git
-```
-
-**<h3>3. Setup and start the virtual machine</h3>**
-
-Next go to the `Grail/vagrant` directory. This directory has virtual machine configurations for different operating systems (for now there is only one). Pick the distro of your choice, and cd to that directory. For this document, we will assume that you pick `ubuntu`. So, issue the following command:
-
-```shell
-cd Grail/vagrant/ubuntu
-```
-
-Next, let us start a virtual machine using the Vagrant file in that directory. From the terminal window, issue the following command:
-
-```shell
-vagrant up
-```
-
-The last command will take a while as Vagrant works with VirtualBox to fetch a box image for Ubuntu. The box image is many hundred MiBs is size, so it takes a while. This image is fetched only once and will be stored by vagrant in a directory (likely `~/.vagrant.d/boxes/`), so you won't incur this network IO if you repeat the steps above. A side-effect is that vagrant has now used a few hundred MiBs of space on your machine. You can see the list of boxes that vagrant has downloaded using vagrant box list. If you need to drop some box images, follow the instructions posted here.
-
-While viewing the `Vagrantfile`, a few more things to notice here are:
-
-The parameter `vb.memory` sets the memory for the virtual machine. You could dial that number up or down depending on the actual memory in your machine.
-The parameter `vb.cpus` sets the number of cores that the virtual machine. Again, feel free to change this number based on the machine that you have.
-Notice the parameter `config.vm.synced_folder`. This configuration requests that the code you checked out is mounted as `/Grail` in the virtual machine. More on this later below.
-Once the command above (vagrant up) returns, we are ready to start the virtual machine. Type in the following command into the terminal window (make sure that you are in the directory `Grail/vagrant/ubuntu`):
-
-```shell
-vagrant ssh
-```
-
-Now you are in the virtual machine shell in a guest OS that is running in your actual machine (the host). Everything that you do in the guest machine will be isolated from the host, except for any changes that you make to `/Grail` - recall that we requested that the code we checked out show up at this mount point in the virtual machine. Thus, if you type ls `/Grail` in the virtual machine shell, then you will see the Grail code that you checked out.
-
-**<h3>4. Setup, compile and execute Grail</h3>**
-
-Change the postgres user password to "postgres". This password might be required in future.
-Run the following command:
-
-```shell
-sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'postgres';"
-```
-
-Now we have to execute the Grail Python script to generate the output. The Python script has the following signature: 
-`python Main.py -i <inputfile> -o <grail outputfile>`
-
-A sample execution of this script for the Single-Source Shortest Path (SSSP) algorithm is:
-
-```shell
-cd /Grail/python/src
-python Main.py -i ../../analytics/sssp.grail -o output
-``` 
-
-In order to generate the Grail SQL output for Weakly Connected Components or PageRank use `wcc.grail` or `pagerank.grail` appropriately  in the above command.
-
-Next, change the user to `postgres`, create the Grail database Grail, and connect to it:
-
-```shell
-sudo -su postgres
-createdb Grail
-psql Grail
-```
-
 You should now be in the `psql` shell.
 
 Now, recall from the [original Grail paper](http://pages.cs.wisc.edu/~jignesh/publ/Grail.pdf), that Grail expects the graph data to be loaded in two tables: A `vertex` table and an `edge` table. Let us create these tables. We can do that by using the `\i` command. The general syntax for that is `\i <script-to-run>`. Let us create the table using the following command (typed into the `psql` shell):
@@ -208,48 +138,5 @@ In this algorithm, the value of a vertex during the execution is the pagerank. I
 `message` table: Intermediate table which stores the contribution of each of the edges for a vertex based on the information in the out_cnts, edge table and the current pagerank values (stored in the `cur` table). Stores the fraction ( (pagerank/out_cnts * 0.85) + 0.15 ) of the contribution of each incoming edge.
 
 `cur` table: Intermediate table that aggregates/accumulates the values in the message table for each of the vertices.
-
-
-sql` shell.
-
-Now, recall from the [original Grail paper](http://pages.cs.wisc.edu/~jignesh/publ/Grail.pdf), that Grail expects the graph data to be loaded in two tables: A `vertex` table and an `edge` table. Let us create these tables. We can do that by using the `\i` command. The general syntax for that is `\i <script-to-run>`. Let us create the table using the following command (typed into the `psql` shell):
-
-```shell
-Example:
-\i /Grail/datagen/sssp/create_and_load_edge.sql
-\i /Grail/datagen/sssp/create_and_load_vertex.sql
-```
-
-Alternatively, to generated a random unweighted graph, you can type in:
-
-```shell
-\i /Grail/datagen/generate_weightedgraph_tables.sql 
-```                   
-You could also write your own script to feed in the required graph data before execution.
-
-Now run the SQL script to execute the graph algorithm. Once again in the `psql` shell type in: 
-
-```shell
-\i /Grail/python/src/output
-```
-
-Some Additional Info:
-  From within the psql prompt:
-  
-       \q : Exit psql shell
-       \dt : View current tables from within psql shell
-  exit: To change user back to root user (vagrant)
-  
-
-**<h3>4. Interpretation of Results and What to Expect</h3>** 
-
-**<h4>Single Source Shortest Path</h4>**
-
-The algorithm runs in multiple iterations until it completes execution.
-
-In each iteration, 
-`message` table: Contains the vertex-distance data that is used in this particular iteration. Since the `message` table could contain multiple rows for the same vertex id, this table is further reduced to the `cur` table.
-`cur` table: Contains the most appropriate value for each vertex computed based on an aggregate function (decided by the user and mentioned in the config). 
-`toupdate` table:  The `cur` table is then used to look for distances for each vertex which are shorter than the current minimum distance (stored in the `next` table), and the vertices to updated along with the new distance values are stored in the `toupdate` table.
 
 
