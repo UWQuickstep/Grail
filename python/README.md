@@ -55,8 +55,10 @@ A sample execution of this script for the Single-Source Shortest Path (SSSP) alg
 
 ```shell
 cd /Grail/python/src
-python Main.py -i ../../configs/sssp.txt -o output
-```
+python Main.py -i ../../analytics/sssp.grail -o output
+``` 
+
+In order to generate the Grail SQL output for Weakly Connected Components or PageRank use `wcc.grail` or `pagerank.grail` appropriately  in the above command.
 
 Next, change the user to `postgres`, create the Grail database Grail, and connect to it:
 
@@ -71,15 +73,17 @@ You should now be in the `psql` shell.
 Now, recall from the [original Grail paper](http://pages.cs.wisc.edu/~jignesh/publ/Grail.pdf), that Grail expects the graph data to be loaded in two tables: A `vertex` table and an `edge` table. Let us create these tables. We can do that by using the `\i` command. The general syntax for that is `\i <script-to-run>`. Let us create the table using the following command (typed into the `psql` shell):
 
 ```shell
+Example:
 \i /Grail/datagen/sssp/create_and_load_edge.sql
 \i /Grail/datagen/sssp/create_and_load_vertex.sql
 ```
 
-Alternatively, to generated weighted graph data, you can type in:
+Alternatively, to generated a random unweighted graph, you can type in:
 
 ```shell
 \i /Grail/datagen/generate_weightedgraph_tables.sql 
-```                    
+```                   
+You could also write your own script to feed in the required graph data before execution.
 
 Now run the SQL script to execute the graph algorithm. Once again in the `psql` shell type in: 
 
@@ -93,3 +97,44 @@ Some Additional Info:
        \q : Exit psql shell
        \dt : View current tables from within psql shell
   exit: To change user back to root user (vagrant)
+  
+
+**<h3>5. Interpretation of Results and What to Expect</h3>** 
+
+**<h4>Single Source Shortest Path</h4>**
+
+`next` table: Contains the shortest distance to each of the nodes at every instant.
+
+`message` table: Contains the vertex-distance data that is used in this particular iteration. Since the `message` table could contain multiple rows for the same vertex id, this table is further reduced to the `cur` table.
+
+`cur` table: Contains the most appropriate value for each vertex computed based on an aggregate function (decided by the user and mentioned in the config). This is obtained from the message table.
+
+`toupdate` table:  The `cur` table is then used to look for distances for each vertex that are shorter than the current minimum distance (stored in the `next` table), and the vertices to updated along with the new distance values are stored in the `toupdate` table.
+
+**<h4>Weakly Connected Components</h4>**
+
+In this algorithm, the value of a vertex during the execution (distance in the case of single source shortest path) is defined as the minimal index of a vertex in the connected subgraph that it belongs to. So if 1, 2, 3, and 4 belong to a subgraph, then the value of each of these nodes will be 1 (minimal index of a vertex in the subgraph). 
+
+`next` table: Contains the minimal index of the vertex in the connected subgraph to which it belongs to.
+
+`message` table: Intermediate table which contains the potential minimal values for each vertex, obtained from the `edge` and the previous `toupdate` table. 
+
+`cur` table: Contains the most appropriate value for each vertex computed based on an aggregate function (decided by the user and mentioned in the config). This is obtained from the `message` table.
+
+`toupdate` table:  The `cur` table is then used to look for values for each vertex that are smaller than the current minimum value (stored in the `next` table), and the vertices to updated along with the new values are stored in the `toupdate` table.
+
+**<h4>Page Rank</h4>**
+
+This algorithm is based on `http://www.webworkshop.net/pagerank.html`
+
+Each page is a vertex in the graph and links to pages are edges in the graph.
+
+In this algorithm, the value of a vertex during the execution is the pagerank. In each iteration the pagerank of a page is modified based on the contributions of the pagerank of incoming edges. So in effect, each edge contributes a fraction of its influence to all outgoing edges. 
+
+`next` table: Contains the page rank of each page (which is represented by a vertex in our graph).
+
+`out_cnts` table: Contains the number of distinct outgoing edges for each vertex.
+
+`message` table: Intermediate table that stores the contribution of each of the edges for a vertex based on the information in the `out_cnts`, `edge` table and the current pagerank values (stored in the `cur` table). Stores the fraction ( (pagerank/out_cnts * 0.85) + 0.15 ) of the contribution of each incoming edge.
+
+`cur` table: Intermediate table that aggregates/accumulates the values in the message table for each of the vertices.

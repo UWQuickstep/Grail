@@ -361,12 +361,12 @@ class Translator():
                 newVal = stat[stat.index("(") + 1:stat.rfind(")")].strip()
                 newVal = newVal.replace("getAggregationVal()", context + ".val")
                 newVal = newVal.replace("getVal()", "next.val")
-                # TODO 
-                newVal = newVal.replace("cur", "next")
+                #newVal = newVal.replace("cur", "next")
                 self.blocks.append(UpdateVertexBlock("setVal",
                                                    self.indentLevel,
                                                    context,
                                                    newVal))
+                newVal = newVal.replace("cur", "next")
                 self.convertedOptions["setValContext"] = context
                 self.convertedOptions["setValNewVal"] = newVal
                 if (context == "cur"):
