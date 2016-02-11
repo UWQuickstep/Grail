@@ -99,7 +99,7 @@ Some Additional Info:
   exit: To change user back to root user (vagrant)
   
 
-**<h3>4. Interpretation of Results and What to Expect</h3>** 
+**<h3>5. Interpretation of Results and What to Expect</h3>** 
 
 **<h4>Single Source Shortest Path</h4>**
 
@@ -109,19 +109,19 @@ Some Additional Info:
 
 `cur` table: Contains the most appropriate value for each vertex computed based on an aggregate function (decided by the user and mentioned in the config). This is obtained from the message table.
 
-`toupdate` table:  The `cur` table is then used to look for distances for each vertex which are shorter than the current minimum distance (stored in the `next` table), and the vertices to updated along with the new distance values are stored in the `toupdate` table.
+`toupdate` table:  The `cur` table is then used to look for distances for each vertex that are shorter than the current minimum distance (stored in the `next` table), and the vertices to updated along with the new distance values are stored in the `toupdate` table.
 
 **<h4>Weakly Connected Components</h4>**
 
-In this algorithm, the value of a vertex during the execution (distance in the case of single source shortest path) is defined as the minimal index of a vertex in the connected subgraph that it belongs to. So if 1,2,3 and 4 belong to a subgraph, then the value of each of these nodes will be 1 (minimal index of a vertex in the subgraph). 
+In this algorithm, the value of a vertex during the execution (distance in the case of single source shortest path) is defined as the minimal index of a vertex in the connected subgraph that it belongs to. So if 1, 2, 3, and 4 belong to a subgraph, then the value of each of these nodes will be 1 (minimal index of a vertex in the subgraph). 
 
 `next` table: Contains the minimal index of the vertex in the connected subgraph to which it belongs to.
 
-`message` table: Intermediate table which contains the potential minimal values for each vertex, obtained from the edge and previous toupdate table. 
+`message` table: Intermediate table which contains the potential minimal values for each vertex, obtained from the `edge` and the previous `toupdate` table. 
 
-`cur` table: Contains the most appropriate value for each vertex computed based on an aggregate function (decided by the user and mentioned in the config). This is obtained from the message table.
+`cur` table: Contains the most appropriate value for each vertex computed based on an aggregate function (decided by the user and mentioned in the config). This is obtained from the `message` table.
 
-`toupdate` table:  The `cur` table is then used to look for values for each vertex which are smaller than the current minimum value (stored in the `next` table), and the vertices to updated along with the new values are stored in the `toupdate` table.
+`toupdate` table:  The `cur` table is then used to look for values for each vertex that are smaller than the current minimum value (stored in the `next` table), and the vertices to updated along with the new values are stored in the `toupdate` table.
 
 **<h4>Page Rank</h4>**
 
@@ -135,8 +135,6 @@ In this algorithm, the value of a vertex during the execution is the pagerank. I
 
 `out_cnts` table: Contains the number of distinct outgoing edges for each vertex.
 
-`message` table: Intermediate table which stores the contribution of each of the edges for a vertex based on the information in the out_cnts, edge table and the current pagerank values (stored in the `cur` table). Stores the fraction ( (pagerank/out_cnts * 0.85) + 0.15 ) of the contribution of each incoming edge.
+`message` table: Intermediate table that stores the contribution of each of the edges for a vertex based on the information in the `out_cnts`, `edge` table and the current pagerank values (stored in the `cur` table). Stores the fraction ( (pagerank/out_cnts * 0.85) + 0.15 ) of the contribution of each incoming edge.
 
 `cur` table: Intermediate table that aggregates/accumulates the values in the message table for each of the vertices.
-
-
