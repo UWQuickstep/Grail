@@ -92,4 +92,3 @@ SELECT edge.dest AS id, MIN(toupdate.val + 1) AS val
 END LOOP;
  
 END $$;
-
