@@ -1,7 +1,13 @@
 GRAIL (written in Java) to generate T-SQL
 ==================================================
 This directory contains code (written in Java) to generate a T-SQL program that
-can be run against Microsoft's SQL Server. Here are the steps:
+can be run against Microsoft's SQL Server. Note this code is not being maintained
+going forward as the main GRAIL code base is moving to the Python implementaiton
+in the main directory. So, this code is largely to support the results that were
+presented in the [original GRAIL paper](http://pages.cs.wisc.edu/~jignesh/publ/Grail.pdf)
+that was published in CIDR 2015.
+
+Here are the steps:
 
 1. Clone the git Grail repository into your local machine using one of the
    following commands:
