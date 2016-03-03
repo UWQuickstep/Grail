@@ -85,9 +85,9 @@ Shortest Path (SSSP) algorithm, run the following commands:
 
 ```shell
 cd /Grail
-python Main.py -i ./analytics/sssp.grail -o output
+python Main.py -i ./analytics/sssp.grail -o sssp.sql
 ``` 
-If you check the file `output` it has the SQL code to computer SSSP.
+If you check the file `sssp.sql` it has the SQL code to compute SSSP.
 
 (To generate the GRAIL SQL output for Weakly Connected Components or PageRank 
 analyses, you can use `wcc.grail` or `pagerank.grail` in the above command 
@@ -128,7 +128,7 @@ Now run the SQL script to execute the graph algorithm. Once again in the
 `psql` shell type in: 
 
 ```shell
-\i /Grail/output
+\i /Grail/sssp.sql
 ```
 
 Some Additional Info:
