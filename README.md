@@ -37,7 +37,12 @@ database engine that has the graph data (stored in tables as described above).
 
 Directory Organization
 ----------------------
-There are three directories here: `analytics`, `java`, and `python`.
+The main top-level directory contains the implemetation of Grail in Python
+that generates PostgreSQL PL/pgSQL. The current version has been tested on 
+PostgreSQL.
+
+There are two directories under this top-level directory: `analytics`, 
+and `java`.
 
 1. The `analytics` directory contains configuration files for various graph
    analytics. This directory has the following files:
@@ -50,13 +55,11 @@ There are three directories here: `analytics`, `java`, and `python`.
 
 2. The `java` directory contains a Java-based Grail compiler to generate SQL
    code for Microsoft SQL Server (this is what was used in the original Grail 
-   paper).
-
-3. The `python` directory contains a Python-based Grail compiler to generate SQL
-   code for PostgreSQL. 
+   paper). This directory is largely for historic purposes, and the main work
+   has moved to the Python implementation.
 
 
-Description of the attributes in the configuration file 
+Description of the attributes in the configuration file (in the `analytics` directory)
 -------------------------------------------------------
 1. *VertexValueType*: The type of value that a vertex represents. It should be
    one of the types supported by the relational database engine, e.g. 
@@ -89,3 +92,7 @@ Description of the attributes in the configuration file
      more messages that need to be processed. 
    - The `(ITER, max_iterations)` option terminates the program after 
      `max_iterations` number of iterations.
+
+Next steps
+-----------
+To get Grail running on PostgreSQL open the file [`GRAIL_ON_POSTGRES.md`](GRAIL_ON_POSTGRES.md).
