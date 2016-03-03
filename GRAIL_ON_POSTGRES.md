@@ -1,6 +1,6 @@
 The instructions here will allow you to get GRAIL running with PostgreSQL in 
 a VirtualBox environment. If you already have PostgreSQL running, then you can
-simply jump to Step 4 below. 
+simply jump to [Step 4](Setup, compile and execute GRAIL) below. 
 
 ##1. Setup VirtualBox and Vagrant
 You need to setup both VirtualBox and Vagrant. If you don't have these installed
@@ -67,7 +67,7 @@ isolated from the host, except for any changes that you make to `/Grail`
 point in the virtual machine. Thus, if you type ls `/Grail` in the virtual
 machine shell, then you will see the Grail code that you checked out.
 
-##4. Setup, compile and execute GRAIL
+##4. Setup, compile and execute GRAIL 
 First lets change the Postgres user password. You can pick any passwore you
 like. Here we simply use the password: `postgres`. This password might be
 required in the future. Next, run the following command:
