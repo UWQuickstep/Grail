@@ -104,7 +104,8 @@ psql Grail
 
 You should now be in the `psql` shell.
 
-Recall from the [original GRAIL paper](http://pages.cs.wisc.edu/~jignesh/publ/Grail.pdf),
+Recall from the discussion in the [`README.md`](README.md) (and in the
+[original GRAIL paper](http://pages.cs.wisc.edu/~jignesh/publ/Grail.pdf)),
 that GRAIL expects the graph data to be loaded in two tables: A `vertex` table
 and an `edge` table. Let us create these tables. We can do that by using the
 `\i` command. The general syntax for that is `\i <script-to-run>`. Let us create
