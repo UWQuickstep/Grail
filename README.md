@@ -54,7 +54,7 @@ and `java`.
    | wcc.grail           | Weakly connected components                        | 
 
 2. The `java` directory contains a Java-based Grail compiler to generate SQL
-   code for Microsoft SQL Server (this is what was used in the original Grail 
+   code for Microsoft SQL Server (this is what was used in the original GRAIL 
    paper). This directory is largely for historic purposes, and the main work
    has moved to the Python implementation.
 
@@ -95,4 +95,4 @@ Description of the attributes in the configuration file (in the `analytics` dire
 
 Next steps
 -----------
-To get Grail running on PostgreSQL open the file [`GRAIL_ON_POSTGRES.md`](GRAIL_ON_POSTGRES.md).
+To get GRAIL running on PostgreSQL, open the file [`GRAIL_ON_POSTGRES.md`](GRAIL_ON_POSTGRES.md).
