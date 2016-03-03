@@ -1,6 +1,6 @@
 GRAIL 
 ============================
-GRAIL is an approcah to run a common class of iterative graph analytics on top
+GRAIL is an approach to run a common class of iterative graph analytics on top
 of existing relational database engines. So, you do not need a specialized graph
 engine! The original paper is at: 
 http://pages.cs.wisc.edu/~jignesh/publ/Grail.pdf.
