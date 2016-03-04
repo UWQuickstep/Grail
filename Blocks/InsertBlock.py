@@ -22,6 +22,7 @@ class InsertBlock(Block):
         self.append("INSERT INTO " + targetTb)
         self.append("(SELECT " + attr)
         self.append("FROM " + fromTb )
+        tail = ""
         if(len(pred) > 0):
             tail = "WHERE "+pred+" "
         tail = tail + ");"
