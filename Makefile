@@ -28,5 +28,6 @@ $DEPS =	CommonDefs.py Grail.py TbNameGen.py ConfigParser.py Main.py \
 
 gen: $(GRAIL_OUTPUT)
 
+
 clean:
 	/bin/rm -f $(GRAIL_OUTPUT) *.pyc Blocks/*.pyc

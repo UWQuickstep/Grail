@@ -35,5 +35,6 @@ def main(argv):
   f.write(outputString)
   print "Successflly completed Grail execution. Please check the ouput file for results.\n"
 
+
 if __name__ == "__main__":
     main(sys.argv[1:])
