@@ -11,6 +11,8 @@ from Blocks.BeginWhileBlock import BeginWhileBlock
 
 from Blocks.EndWhileBlock import EndWhileBlock
 
+from collections import OrderedDict
+
 import re
 from TbNameGen import TbNameGen
 from CommonDefs import CommonDefs
@@ -378,10 +380,46 @@ class Translator():
                 newVal = newVal.replace("getAggregationVal()", context + ".val")
                 newVal = newVal.replace("getVal()", "next.val")
                 # newVal = newVal.replace("cur", "next")
+
+		#get all columns
+		col_lst = OrderedDict() 
+		tbl_list = []
+		#stat = stat[stat.index("(") + 1:stat.rfind(")")].strip()
+		stat = newVal	
+		col_name_val_pairs = []
+
+		from_indx = stat.find("FROM")
+		if(from_indx > 0):
+			tbl_names = stat[from_indx+4:]
+			tbl_names = tbl_names[tbl_names.index("(") + 1:tbl_names.rfind(")")].strip()
+			tables = tbl_names.split(",")
+			for tbl in tables:
+				tbl_list.append(tbl)
+
+			col_name_val_pairs = stat[:from_indx].split(",")
+			
+		else:
+			tbl_list.append(context)
+			if(stat.find(",") != stat.rfind(",")): #multiple columns to be updated
+				col_name_val_pairs=stat.split(",")	
+	
+		i = 0
+		for entry in col_name_val_pairs:
+        		if(i%2 == 0 and i <= len(col_name_val_pairs)-2):
+                		s1 = col_name_val_pairs[i]
+                		s2 = col_name_val_pairs[i+1]
+                		col_lst[s1]=s2
+        		i = i + 1
+		if(len(col_name_val_pairs) == 0):
+				col_lst['val'] = newVal		
+
+		#update statement for next table with column list and from table list and join on id		
                 self.blocks.append(UpdateVertexBlock("setVal",
                                                      self.indentLevel,
-                                                     context,
-                                                     newVal))
+						     col_lst,
+						     tbl_list))
+
+
                 newVal = newVal.replace("cur", "next")
                 self.convertedOptions["setValContext"] = context
                 self.convertedOptions["setValNewVal"] = newVal
