@@ -18,30 +18,6 @@ class UpdateVertexBlock(Block):
         '''
         return self.otherTable
 
-    def update_next(self,col_dict,from_lst):
-	stmt = "UPDATE next set "
-	keys = col_dict.keys()
-	print keys
-    	for i in range(0,len(keys)-1):
-		stmt+=keys[i]+"="+col_dict[keys[i]]+","
-
-	stmt+=keys[len(keys)-1]+"="+col_dict[keys[len(keys)-1]]+"\n"
-	
-	#from table list
-	stmt+="FROM "
-	for i in range(0,len(from_lst)-1):
-		stmt+= from_lst[i]+","
-	stmt+=from_lst[len(from_lst)-1]
-	stmt+="\n"
-
-	stmt+="WHERE "	
-	for i in range(0,len(from_lst)-1):
-		stmt+= "next.id="+from_lst[i]+".id and "
-	stmt+="next.id="+from_lst[len(from_lst)-1]+".id"
-
-	print stmt
-			
-
     def __init__(self,stage,indent,col_dict,from_lst):
         '''
         constructor
@@ -66,7 +42,7 @@ class UpdateVertexBlock(Block):
   	self.update_next(col_dict,from_lst) 
 	'''
 
-	self.append("UPDATE next set ")
+	self.append("UPDATE next SET ")
 	keys = col_dict.keys()
 	for i in range(0,len(keys)-1):
 		self.append(keys[i]+"="+col_dict[keys[i]]+",")
