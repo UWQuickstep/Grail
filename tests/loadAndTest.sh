@@ -1,4 +1,4 @@
 #!/bin/sh 
 
-echo "All tests have passed"
+echo "Running all tests"
 exit 0
