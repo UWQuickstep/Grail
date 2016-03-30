@@ -6,5 +6,5 @@ python:
   - "2.6"
 
 script:
-  - ./tests/loadAndTest.sh 
+  - ./Grail/tests/loadAndTest.sh 
 
