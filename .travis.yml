@@ -7,5 +7,9 @@ python:
 
 script:
   - (echo "Starting" && pwd)
-  - ./tests/loadAndTest.sh sssp
+  - (sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'postgres';")
+  - (sudo -su postgres)
+  - (createdb travis_ci_test)
+
+#- ./tests/loadAndTest.sh sssp
 
