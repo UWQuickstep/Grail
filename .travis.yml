@@ -12,6 +12,6 @@ script:
   - (echo "Starting" && pwd)
   - (sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'postgres';")
   - (sudo -u postgres psql -c "CREATE DATABASE travis_ci_test;")
-
-  - ./tests/loadAndTest.sh sssp
+  - (cat ./output/sssp_golden.out)
+  - (./tests/loadAndTest.sh sssp)
 

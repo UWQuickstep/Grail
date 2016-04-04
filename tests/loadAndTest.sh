@@ -30,6 +30,7 @@ psql travis_ci_test -c "\i "$algo_sql
 
 #exports tuples from next table as flat file
 psql travis_ci_test -t -c "select * from next order by id" > ./output/$algo.out
+psql travis_ci_test -t -c "select * from next order by id"
 
 #compares the diff between golden file and exported file
 python ./compareoutput.py -f "./output/"$algo"_golden.out" -F "./output/"$algo".out"
