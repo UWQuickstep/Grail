@@ -3,9 +3,17 @@
 
 language: python
 python:
-  - "2.6"
+  - "2.7"
+
+before_script:
+  - (make)
 
 script:
   - (echo "Starting" && pwd)
-  - ./tests/loadAndTest.sh 
+  - (sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'postgres';")
+  - (sudo -u postgres psql -c "CREATE DATABASE travis_ci_test;")
+  - (cat ./output/sssp_golden.out)
+  - (./tests/loadAndTest.sh sssp)
+  - (./tests/loadAndTest.sh wcc)
+  - (./tests/loadAndTest.sh pagerank)
 
