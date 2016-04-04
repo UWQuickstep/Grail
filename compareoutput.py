@@ -8,7 +8,8 @@ def fileToTuples(file, delimiter):
         tuple = ""
         for token in tokens:
             tuple = tuple + token.strip()
-        data1.append(tuple)
+	if(tuple != ""):
+        	data1.append(tuple)
     f1.close()
     return data1
 
