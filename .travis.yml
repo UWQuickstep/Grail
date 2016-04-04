@@ -8,7 +8,7 @@ python:
 script:
   - (echo "Starting" && pwd)
   - (sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'postgres';")
-  - (sudo -u postgres psql -c "createdb travis_ci_test;")
+  - (sudo -u postgres psql -c "CREATE DATABASE travis_ci_test;")
 
 #- ./tests/loadAndTest.sh sssp
 
