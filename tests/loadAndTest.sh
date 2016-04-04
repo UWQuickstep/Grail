@@ -32,6 +32,13 @@ psql travis_ci_test -c "\i "$algo_sql
 psql travis_ci_test -t -c "select * from next order by id" > ./output/$algo.out
 psql travis_ci_test -t -c "select * from next order by id"
 
+#view the files
+echo "golden output"
+cat "./output/"$algo"_golden.out"
+echo "algo output"
+cat "./output/"$algo".out"
+
+
 #compares the diff between golden file and exported file
 python ./compareoutput.py -f "./output/"$algo"_golden.out" -F "./output/"$algo".out"
 ret=$?
