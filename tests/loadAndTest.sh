@@ -29,7 +29,7 @@ for iter in $(seq 1 $num_tests); do
 vertex_load_sql=$dir"/create_and_load_vertex_test"$iter".sql"
 psql travis_ci_test -c "\i "$vertex_load_sql
 
-edge_load_sql="./datagen/"$algo"/create_and_load_edge"$iter".sql"
+edge_load_sql=$dir"/create_and_load_edge_test"$iter".sql"
 psql travis_ci_test -c "\i "$edge_load_sql
 
 #executes generated algorithmic sql and loads into next table of the db
