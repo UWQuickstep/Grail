@@ -50,10 +50,10 @@ class SelectIntoExtended(Block):
                 if(fromList[i]=="edge" or fromList[i+1]=="edge"):
                     continue
             
-            if(i==0):
-                line=line+fromList[i]+".id = "+fromList[i+1]+".id "
-            else:
-                line=line+"AND " + fromList[i] + ".id = " + fromList.get[i+1]+ ".id "              
+            	if(i==0):
+                	line=line+fromList[i]+".id = "+fromList[i+1]+".id "
+            	else:
+                	line=line+"AND " + fromList[i] + ".id = " + fromList.get[i+1]+ ".id "              
             
             if(len(fromList)>2 and fromList[len(fromList)-2]!="edge" and fromList[len(fromList)-1]=="edge"):
                 if(len(fromList)==2):
