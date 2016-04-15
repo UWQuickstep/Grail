@@ -1,5 +1,5 @@
 import sys,getopt
-from CommonDefs import CommonDefs.py
+from CommonDefs import CommonDefs
 
 def fileToTuples(file, delimiter):
     f1 = open(file,"r")
