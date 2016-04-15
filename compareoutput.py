@@ -1,4 +1,5 @@
 import sys,getopt
+from CommonDefs import CommonDefs.py
 
 def fileToTuples(file, delimiter):
     f1 = open(file,"r")
@@ -49,14 +50,21 @@ def main(argv):
     else:
         for i,val in enumerate(data1):
             if(data1[i] != data2[i]):
-                return 1
+		if(data1[i] == CommonDefs.INT_MAX or data2[i] == CommonDefs.INT_MAX):
+			return 2
+		else:
+                	return 1
         return 0
 
 if __name__ == "__main__":
     rc = main(sys.argv[1:])
     if rc > 0:
-        print 'Input files are different'
-        sys.exit(1)
+	if rc == 2:
+		print 'Input graph is disconnected and the current implementation of WCC does not support disconnected graphs'
+		sys.exit(0)
+	else:
+        	print 'Input files are different'
+        	sys.exit(1)
     else:
         print 'Input files are similar'
         sys.exit(0)
