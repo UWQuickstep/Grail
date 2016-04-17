@@ -5,11 +5,12 @@ def fileToTuples(file, delimiter):
     f1 = open(file,"r")
     data1 = [] #list of tuples from f1
     for line in f1.readlines():
+	line = line.strip()
         tokens = line.split(delimiter)
         tuple = []
         for token in tokens:
             tuple.append(token.strip())
-	if(len(tuple ) > 0):
+	if(len(line) >0 and len(tuple ) > 0):
         	data1.append(tuple)
     f1.close()
     return data1
