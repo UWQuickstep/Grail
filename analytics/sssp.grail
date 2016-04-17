@@ -6,6 +6,6 @@ CombineMessage: MIN(message)
 UpdateAndSend:toupdate=getAggregationVal()<getVal()
 if (toupdate) {
 setVal(getAggregationVal())
-send(out, getAggregationVal() + 1)
+send(out, getAggregationVal() + edge.weight)
 }
 End: NO_MESSAGE

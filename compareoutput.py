@@ -52,7 +52,6 @@ def main(argv):
         for i,val in enumerate(data1):
 	    if(len(data1[i]) != len(data2[i])):
 	    	return 1;
-	    
             if(data1[i] != data2[i]):
 		if(CommonDefs.INT_MAX in data1[i] or CommonDefs.INT_MAX in data2[i]):
 			return 2
