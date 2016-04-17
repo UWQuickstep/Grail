@@ -6,10 +6,10 @@ def fileToTuples(file, delimiter):
     data1 = [] #list of tuples from f1
     for line in f1.readlines():
         tokens = line.split(delimiter)
-        tuple = ""
+        tuple = []
         for token in tokens:
-            tuple = tuple + token.strip()
-	if(tuple != ""):
+            tuple.append(token.strip())
+	if(len(tuple ) > 0):
         	data1.append(tuple)
     f1.close()
     return data1
@@ -49,8 +49,11 @@ def main(argv):
         return 1
     else:
         for i,val in enumerate(data1):
+	    if(len(data1[i] != data2[i]):
+	    	return 1;
+	    
             if(data1[i] != data2[i]):
-		if(data1[i] == CommonDefs.INT_MAX or data2[i] == CommonDefs.INT_MAX):
+		if(CommonDefs.INT_MAX in data1[i] or CommonDefs.INT_MAX in data2[i]):
 			return 2
 		else:
                 	return 1
