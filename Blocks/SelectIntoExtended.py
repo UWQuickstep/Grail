@@ -46,10 +46,11 @@ class SelectIntoExtended(Block):
         
         if (joinWithId):
             line+="WHERE "
-            for i in range(0,len(fromList)-2):
+
+
+            for i in range(0,len(fromList)-1):
                 if(fromList[i]=="edge" or fromList[i+1]=="edge"):
                     continue
-            
             	if(i==0):
                 	line=line+fromList[i]+".id = "+fromList[i+1]+".id "
             	else:
@@ -60,7 +61,7 @@ class SelectIntoExtended(Block):
                     line=line+fromList[len(fromList)-2]+ ".id = " + fromList[len(fromList) - 1] + ".id"
                 else:
                     line=line+" AND " + fromList[len(fromList) - 2]+ ".id = " + fromList[len(fromList) - 1] + ".id"
-                      
+                     
             if(pred != ""):
                 if(len(line)==6):
                     line+=pred
