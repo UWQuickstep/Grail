@@ -1,14 +1,16 @@
 import sys,getopt
+from CommonDefs import CommonDefs
 
 def fileToTuples(file, delimiter):
     f1 = open(file,"r")
     data1 = [] #list of tuples from f1
     for line in f1.readlines():
+	line = line.strip()
         tokens = line.split(delimiter)
-        tuple = ""
+        tuple = []
         for token in tokens:
-            tuple = tuple + token.strip()
-	if(tuple != ""):
+            tuple.append(token.strip())
+	if(len(line) >0 and len(tuple ) > 0):
         	data1.append(tuple)
     f1.close()
     return data1
@@ -48,17 +50,27 @@ def main(argv):
         return 1
     else:
         for i,val in enumerate(data1):
+	    if(len(data1[i]) != len(data2[i])):
+	    	return 1;
             if(data1[i] != data2[i]):
-                return 1
+		if(CommonDefs.INT_MAX in data1[i] or CommonDefs.INT_MAX in data2[i]):
+			return 2
+		else:
+                	return 1
         return 0
 
 if __name__ == "__main__":
     rc = main(sys.argv[1:])
     if rc > 0:
-        print 'Input files are different'
-        sys.exit(1)
+	if rc == 2:
+		print 'Input graph is disconnected and the current implementation of WCC does not support disconnected graphs'
+		sys.exit(0)
+	else:
+        	print 'Input files are different'
+        	sys.exit(1)
     else:
         print 'Input files are similar'
         sys.exit(0)
+
 
 

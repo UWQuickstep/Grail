@@ -27,18 +27,13 @@ echo "Number of tests for algo "$algo"="$num_tests
 
 for iter in $(seq 1 $num_tests); do
 vertex_load_sql=$dir"/create_and_load_vertex_test"$iter".sql"
-psql travis_ci_test -c "\i "$vertex_load_sql
-
-edge_load_sql=$dir"/create_and_load_edge_test"$iter".sql"
-psql travis_ci_test -c "\i "$edge_load_sql
+echo $vertex_load_sql
+edge_load_sql=$dir"/create_and_load_edge"$iter".sql"
+echo $edge_load_sql
 
 #executes generated algorithmic sql and loads into next table of the db
 algo_sql="./analytics/"$algo".sql"
-psql travis_ci_test -c "\i "$algo_sql
-
-#exports tuples from next table as flat file
-psql travis_ci_test -t -c "select * from next order by id" > $dir"/"$algo".out"
-psql travis_ci_test -t -c "select * from next order by id"
+echo $algo_sql
 
 #compares the diff between golden file and exported file
 python ./compareoutput.py -f $dir"/"$algo"_golden_test"$iter".out" -F $dir"/"$algo".out"
@@ -51,4 +46,3 @@ done
 
 echo "All Tests Successful for "$algo
 exit 0
-

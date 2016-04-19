@@ -6,14 +6,15 @@ python:
   - "2.7"
 
 before_script:
+  - (make clean)
   - (make)
 
 script:
   - (echo "Starting" && pwd)
   - (sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'postgres';")
   - (sudo -u postgres psql -c "CREATE DATABASE travis_ci_test;")
-  - (cat ./output/sssp_golden.out)
   - (./tests/loadAndTest.sh sssp)
   - (./tests/loadAndTest.sh wcc)
   - (./tests/loadAndTest.sh pagerank)
+
 
