@@ -17,3 +17,4 @@ script:
   - (./tests/loadAndTest.sh wcc)
   - (./tests/loadAndTest.sh pagerank)
 
+

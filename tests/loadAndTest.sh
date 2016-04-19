@@ -51,3 +51,4 @@ done
 
 echo "All Tests Successful for "$algo
 exit 0
+
