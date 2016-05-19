@@ -8,7 +8,7 @@ from Blocks.SelectIntoBlock import SelectIntoBlock
 from Blocks.SelectIntoExtended import SelectIntoExtended
 from Blocks.UpdateVertexBlock import UpdateVertexBlock
 from Blocks.BeginWhileBlock import BeginWhileBlock
-
+from Blocks.CreateandInitSeqBlock import CreateandInitSeqBlock
 from Blocks.EndWhileBlock import EndWhileBlock
 
 from collections import OrderedDict
@@ -30,6 +30,7 @@ class Translator():
     MUTATE_VALUE = 2
     SEND_MSG = 3
     END_IF = 4
+    next_tbl_schema = ""
 
     def __init__(self, options):
         self.options = options
@@ -87,7 +88,7 @@ class Translator():
         generates the link counts table
         @param isIn: Set to 1 if the table is for incoming edges, 0 otherwise
         @type isIn:  boolean
-        '''
+        ''' 
         tableNames = ["in_cnts", "out_cnts"]
         attrs = ["src", "dest"]
         fromList = []
@@ -113,7 +114,8 @@ class Translator():
             atrInd = 1
         elif (isIn == 0):
             atrInd = 0
-
+	
+	'''
         self.blocks.append(SelectIntoExtended("genCnt",
                                               self.indentLevel,
                                               attrList,
@@ -122,6 +124,16 @@ class Translator():
                                               "",
                                               False,
                                               attrs[atrInd]))
+	'''
+	query = "select vertex.id, count(col1) as cnt from vertex left outer join edge on vertex.id = edge.col2 group by vertex.id;"
+	query = query.replace("col1", attrs[tab])
+	query = query.replace("col2", attrs[atrInd])
+
+	self.blocks.append(Block("initMsg",
+           			 self.indentLevel,
+           			 "INSERT INTO " + tableNames[tab] + " "+ query
+           			 ))
+
         self.tableNameList.append(tableNames[tab])
 
     def combineMsg(self):
@@ -217,7 +229,7 @@ class Translator():
                                               ""))
         self.tableNameList.append(targetTb)
 
-    def sendMsg(self, dirval, content, context):
+    def sendMsg(self, dirval, content, context, predicate=""):
         '''
         generates the blocks to send messages after each iteration    
         @param dirval: direction of join (decides whether the src or dest id should be used for join)
@@ -246,7 +258,14 @@ class Translator():
             joinFlag = 0
             attrList = []
             fromList = []
-            atomics = re.split(" |\\+|-|\\*|/|<|>|(==)|(AND)|(OR)", content)
+            atomics = re.split("|\\+|-|\\*|/|<|>|(==)|(AND)|(OR)", content)
+	    atomics.extend(re.split("|\\+|-|\\*|/|<|>|(==)|(AND)|(OR)", predicate))
+
+	    print "content=", content
+	    print "atomics=", atomics
+	    print "predicate=", predicate
+            print "context=", context
+
             userTbs = []
             for item in atomics:
                 if (item is None): continue
@@ -257,6 +276,10 @@ class Translator():
                     userTbs.append(item[0:var.start()])
                     fromList.append(tbName)
                     self.senders.append(tbName)
+
+	    if context not in fromList:
+	    	fromList.append(context)	
+
             fromList.append("edge")
             if (content.find("out_cnts") != -1):
                 fromList.append("out_cnts")
@@ -279,12 +302,18 @@ class Translator():
                     flag = 1
                 attrList.append("edge." + attrs[flag] + " AS id")
                 attrList.append(content + " AS val")
-                pred = "edge." + attrs[1 - flag] + " = " + context + ".id" + joinStr
+
+		if predicate != "":
+			predicate = " AND " + predicate
+		
+                pred = "edge." + attrs[1 - flag] + " = " + context + ".id" + joinStr + predicate
                 groupBy = ""
                 if (dir == "in"):
                     groupBy = "src"
                 else:
                     groupBy = "dest"
+		print "fromList=", fromList
+
                 self.blocks.append(SelectIntoExtended("sendMsg",
                                                       self.indentLevel,
                                                       attrList,
@@ -391,7 +420,7 @@ class Translator():
 		from_indx = stat.find("FROM")
 		if(from_indx > 0):
 			tbl_names = stat[from_indx+4:]
-			tbl_names = tbl_names[tbl_names.index("(") + 1:tbl_names.rfind(")")].strip()
+			tbl_names = tbl_names[tbl_names.index("(") + 1:tbl_names.find(")")].strip()
 			tables = tbl_names.split(",")
 			for tbl in tables:
 				tbl_list.append(tbl)
@@ -400,9 +429,8 @@ class Translator():
 			
 		else:
 			tbl_list.append(context)
-			if(stat.find(",") != stat.rfind(",")): #multiple columns to be updated
+			if(stat.find(",") >= 0):   # != stat.rfind(",")): #multiple columns to be updated
 				col_name_val_pairs=stat.split(",")	
-	
 		i = 0
 		for entry in col_name_val_pairs:
         		if(i%2 == 0 and i <= len(col_name_val_pairs)-2):
@@ -413,11 +441,19 @@ class Translator():
 		if(len(col_name_val_pairs) == 0):
 				col_lst['val'] = newVal		
 
+		
+		pred_indx = stat.find("CONDN")
+		pred = ""
+		if(pred_indx > 0):
+			condn = stat[pred_indx+6:]
+			pred = condn[0:condn.find(")")]	
+
 		#update statement for next table with column list and from table list and join on id		
                 self.blocks.append(UpdateVertexBlock("setVal",
                                                      self.indentLevel,
 						     col_lst,
-						     tbl_list))
+						     tbl_list,		
+						     pred))
 
 
                 newVal = newVal.replace("cur", "next")
@@ -449,7 +485,10 @@ class Translator():
                     self.convertedOptions["msgDir"] = params[0]
                     params[1] = params[1].replace("getVal()", "next.val")
                     params[1] = params[1].replace("getAggregationVal()", context + ".val")
-                    self.sendMsg(params[0], params[1], context)
+		    predicate = ""	
+		    if len(params) == 3:  #predicate found
+			predicate = params[2]	
+                    self.sendMsg(params[0], params[1], context, predicate)
                     self.convertedOptions["SendMsgDir"] = params[0]
 
             elif (self.getStatementType(stat) == self.END_IF):
@@ -478,7 +517,11 @@ class Translator():
 
     def getColNames(self, tablename):
         if (tablename == 'next'):
-            colNames = ["id", "val", "aggMsgCnt"]
+	    if self.next_tbl_schema == "" :
+            	colNames = ["id", "val"]
+	    else:
+		colNames = self.next_tbl_schema.split(",")
+	    #["id", "val", "aggMsgCnt"]
         else:
             colNames = []
         return colNames
@@ -509,11 +552,10 @@ class Translator():
 
                 elif (initVal == "DBL_MIN"):
                     initVal = CommonDefs.DBL_MIN
-                if (initVal != 'NULL'):
-                    attrList.append(
-                        "CAST(" + initVal + " AS " + self.options["VertexValType"] + ")" + " AS " + colNames[i])
-                else:
-                    attrList.append(initVal + " AS " + colNames[i])
+                #if (initVal != 'NULL'):
+                attrList.append("CAST(" + initVal + " AS " + self.options["VertexValType"] + ")" + " AS " + colNames[i])
+                #else:
+                #    attrList.append(initVal + " AS " + colNames[i])
                 i = i + 1
 
             self.blocks.append(SelectIntoExtended("copyVertex",
@@ -532,6 +574,7 @@ class Translator():
         '''
         attrList = []
         fromList = []
+	print "attrs=", len(attrs), attrs
         if (attrs[0] == "MATCH"):
             attrList.append("id")
             attrList.append(attrs[3])
@@ -543,6 +586,7 @@ class Translator():
                                            "message",
                                            attrs[1],
                                            pred))
+		
         elif (attrs[0] == "ALL"):
             attrList.append("*")
             attrList.append(attrs[1])
@@ -587,22 +631,41 @@ class Translator():
         self.blocks.append(DropTableBlock("initdroptoupdate", self.indentLevel, "toupdate"))
         self.blocks.append(DropIndexBlock("initdropsrcindex", self.indentLevel, "idx_src", "edge"))
         self.blocks.append(DropIndexBlock("initdropdestindex", self.indentLevel, "idx_dest", "edge"))
-        self.copyVertex()
+	
+	if 'NextTblSchema' in self.options.keys():
+       		self.next_tbl_schema = self.options["NextTblSchema"] 
+	else:
+		self.next_tbl_schema = "id, val"  #defaul schema for next table
+	self.copyVertex()
+
+	#sequence for topo sort
+	if 'CreateSeq' in self.options.keys() and 'InitSeq' in self.options.keys():
+		seq_stat = self.options['CreateSeq']
+		seq_tokens = seq_stat.split(",")
+		seq_tokens.extend(self.options['InitSeq'].split(","))	
+		self.blocks.append(CreateandInitSeqBlock("createandinitseq",self.indentLevel, seq_tokens))	
+
         initMsg = self.options["InitialMessage"]
         initMsg = initMsg[initMsg.index("(") + 1:
         initMsg.rfind(')')].strip()
         initMsgStrs = initMsg.split(",")
         for i in range(0, len(initMsgStrs)):
-            initMsgStrs[i] = initMsgStrs[i].strip()
+        	initMsgStrs[i] = initMsgStrs[i].strip()
         attrs = ["id int", "val " + self.options["MessageValType"]]
 
-        self.createTable("createMsg", "message", attrs)
-        self.initMsg(initMsgStrs)
+        #self.createTable("createMsg", "message", attrs)
+        #self.initMsg(initMsgStrs)
 
         if (self.options["UpdateAndSend"].find("in_cnts") != -1):
             self.generateCnts(True)
         if (self.options["UpdateAndSend"].find("out_cnts") != -1):
             self.generateCnts(False)
+
+	#creating message table after the in_cnts table creation as the message table can select tuples from in_cnts	
+	self.createTable("createMsg", "message", attrs)
+	self.initMsg(initMsgStrs)
+
+
 
     def translate(self):
         '''

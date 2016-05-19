@@ -1,5 +1,3 @@
-DROP TABLE IF EXISTS cur_alias;
-
 DROP TABLE IF EXISTS cur;
 
 DROP TABLE IF EXISTS message;
@@ -16,7 +14,7 @@ DROP INDEX IF EXISTS idx_dest;
 
 DROP TABLE IF EXISTS next;
  CREATE TABLE next AS
-SELECT id AS id, CAST(2147483647 AS INT) AS val
+SELECT id AS id, CAST(2147483647 AS INT) AS  val
 FROM vertex
 ;
 
@@ -30,48 +28,14 @@ INSERT INTO message
 FROM vertex
 );
 
-CREATE INDEX idx_dest ON edge(dest);
-
-CREATE INDEX idx_src ON edge(src);
-
 DO $$
 DECLARE
 
 flag integer := -1;
 
-isFirst integer := 1;
 BEGIN
 
 WHILE flag != 0 LOOP
-
- IF (isFirst = 1)
- THEN
- DROP TABLE IF EXISTS cur;
- CREATE TABLE cur AS
-SELECT message.id AS id, MIN(message.val) AS val
- FROM message
- GROUP BY id
- ;
- isFirst := 0;
- ELSE
- DROP TABLE IF EXISTS message;
- CREATE TABLE message AS
-SELECT id, MIN(val) as val 
- FROM (
-  
-SELECT edge.src AS id, toupdate.val AS val
-  FROM toupdate, edge
-  WHERE edge.dest = toupdate.id 
-  
-    UNION ALL
-  
-SELECT edge.dest AS id, toupdate.val AS val
-  FROM toupdate, edge
-  WHERE edge.src = toupdate.id 
-   ) AS Temp
- GROUP BY id
- ;
- END IF;
 
  DROP TABLE IF EXISTS cur;
  CREATE TABLE cur AS
@@ -86,7 +50,7 @@ SELECT message.id AS id, MIN(message.val) AS val
  CREATE TABLE toupdate AS
 SELECT cur.id AS id, cur.val AS val
  FROM cur, next
- WHERE cur.val<next.val
+ WHERE cur.id = next.id  AND cur.val<next.val
  ;
 
  UPDATE next SET 
@@ -94,29 +58,28 @@ SELECT cur.id AS id, cur.val AS val
  FROM 
  toupdate
  WHERE 
- next.id=toupdate.id;
+ next.id=toupdate.id
+ ;
 
  DROP TABLE IF EXISTS message;
  CREATE TABLE message AS
-SELECT id, MIN(val) as val 
+SELECT *
  FROM (
   
 SELECT edge.src AS id, toupdate.val AS val
   FROM toupdate, edge
   WHERE edge.dest = toupdate.id 
-  
+  GROUP BY src
     UNION ALL
   
 SELECT edge.dest AS id, toupdate.val AS val
   FROM toupdate, edge
   WHERE edge.src = toupdate.id 
    ) AS Temp
- GROUP BY id
- ;
 
  DROP TABLE IF EXISTS cur;
 
- flag := (SELECT COUNT (*) FROM toupdate);
+ flag := (SELECT COUNT (*) FROM message);
 END LOOP;
  
 END $$;

@@ -1,0 +1,1 @@
+{"virtualbox":{"/Grail":{"guestpath":"/Grail","hostpath":"/afs/cs.wisc.edu/u/s/u/subasreev/spring16/Indep_Study/Grail_Public","disabled":false,"__vagrantfile":true},"/vagrant":{"guestpath":"/vagrant","hostpath":"/afs/cs.wisc.edu/u/s/u/subasreev/spring16/Indep_Study/Grail_Public/vagrant/ubuntu","disabled":false,"__vagrantfile":true}}}

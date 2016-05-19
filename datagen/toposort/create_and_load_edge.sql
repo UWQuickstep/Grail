@@ -1,0 +1,12 @@
+drop table IF EXISTS edge;
+create table edge(src int, dest int);
+insert into edge values(1,2);
+insert into edge values(2,3);
+insert into edge values(4,2);
+insert into edge values(4,5);
+insert into edge values(7,5);
+insert into edge values(7,8);
+insert into edge values(2,6);
+insert into edge values(2,8);
+insert into edge values(5,6);
+select * from edge;

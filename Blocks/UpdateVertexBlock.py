@@ -18,7 +18,7 @@ class UpdateVertexBlock(Block):
         '''
         return self.otherTable
 
-    def __init__(self,stage,indent,col_dict,from_lst):
+    def __init__(self,stage,indent,col_dict,from_lst,pred=""):
         '''
         constructor
         @param stage: stage of the block
@@ -54,6 +54,10 @@ class UpdateVertexBlock(Block):
 	self.append("WHERE ")
 	for i in range(0,len(from_lst)-1):
 		self.append("next.id="+from_lst[i]+".id and ")
-	self.append("next.id="+from_lst[len(from_lst)-1]+".id;")
+	self.append("next.id="+from_lst[len(from_lst)-1]+".id")
+	if(pred != ""):
+		self.append("and "+pred)
+	self.append(";")
+
 	self.sql = self.sb	
 		
