@@ -24,7 +24,7 @@ DROP SEQUENCE IF EXISTS my_seq;
 CREATE SEQUENCE my_seq MINVALUE 0;
 SELECT setval('my_seq',0);
 
-INSERT INTO in_cnts select vertex.id, count(src) as cnt from vertex left outer join edge on vertex.id = edge.dest group by vertex.id;
+CREATE TABLE in_cnts AS select vertex.id, count(src) as cnt from vertex left outer join edge on vertex.id = edge.dest group by vertex.id;
 
 CREATE TABLE message(
  id int,

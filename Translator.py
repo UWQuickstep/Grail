@@ -131,7 +131,7 @@ class Translator():
 
 	self.blocks.append(Block("initMsg",
            			 self.indentLevel,
-           			 "INSERT INTO " + tableNames[tab] + " "+ query
+           			 "CREATE TABLE " + tableNames[tab] + " AS "+ query
            			 ))
 
         self.tableNameList.append(tableNames[tab])

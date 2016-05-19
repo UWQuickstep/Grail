@@ -20,7 +20,7 @@ SELECT id AS id, CAST(0 AS float) AS  val
 FROM vertex
 ;
 
-INSERT INTO out_cnts select vertex.id, count(dest) as cnt from vertex left outer join edge on vertex.id = edge.src group by vertex.id;
+CREATE TABLE out_cnts AS select vertex.id, count(dest) as cnt from vertex left outer join edge on vertex.id = edge.src group by vertex.id;
 
 CREATE TABLE message(
  id int,
