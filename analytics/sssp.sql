@@ -6,6 +6,8 @@ DROP TABLE IF EXISTS next;
 
 DROP TABLE IF EXISTS out_cnts;
 
+DROP TABLE IF EXISTS in_cnts;
+
 DROP TABLE IF EXISTS toupdate;
 
 DROP INDEX IF EXISTS idx_src;
@@ -63,7 +65,6 @@ SELECT cur.id AS id, cur.val AS val
 SELECT edge.dest AS id, toupdate.val + edge.weight AS val
  FROM toupdate, edge
  WHERE edge.src = toupdate.id
- GROUP BY dest
  ;
 
  DROP TABLE IF EXISTS cur;

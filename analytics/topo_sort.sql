@@ -6,6 +6,8 @@ DROP TABLE IF EXISTS next;
 
 DROP TABLE IF EXISTS out_cnts;
 
+DROP TABLE IF EXISTS in_cnts;
+
 DROP TABLE IF EXISTS toupdate;
 
 DROP INDEX IF EXISTS idx_src;
@@ -76,7 +78,6 @@ SELECT message.id AS id, SUM(message.val) AS val
 SELECT edge.dest AS id, 1 AS val
  FROM next, cur, edge
  WHERE next.id = cur.id  AND edge.src = cur.id AND next.val2 is not null
- GROUP BY dest
  ;
 
  DROP TABLE IF EXISTS cur;

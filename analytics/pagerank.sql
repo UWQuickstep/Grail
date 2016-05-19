@@ -6,6 +6,8 @@ DROP TABLE IF EXISTS next;
 
 DROP TABLE IF EXISTS out_cnts;
 
+DROP TABLE IF EXISTS in_cnts;
+
 DROP TABLE IF EXISTS toupdate;
 
 DROP INDEX IF EXISTS idx_src;
@@ -61,7 +63,6 @@ SELECT message.id AS id, SUM(message.val)*0.85 + 0.15 AS val
 SELECT edge.dest AS id, cur.val/out_cnts.cnt AS val
  FROM cur, edge, out_cnts
  WHERE edge.src = cur.id AND out_cnts.id = cur.id
- GROUP BY dest
  ;
 
  DROP TABLE IF EXISTS cur;

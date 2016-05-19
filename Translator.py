@@ -261,10 +261,6 @@ class Translator():
             atomics = re.split("|\\+|-|\\*|/|<|>|(==)|(AND)|(OR)", content)
 	    atomics.extend(re.split("|\\+|-|\\*|/|<|>|(==)|(AND)|(OR)", predicate))
 
-	    print "content=", content
-	    print "atomics=", atomics
-	    print "predicate=", predicate
-            print "context=", context
 
             userTbs = []
             for item in atomics:
@@ -312,7 +308,6 @@ class Translator():
                     groupBy = "src"
                 else:
                     groupBy = "dest"
-		print "fromList=", fromList
 
                 self.blocks.append(SelectIntoExtended("sendMsg",
                                                       self.indentLevel,
@@ -574,7 +569,6 @@ class Translator():
         '''
         attrList = []
         fromList = []
-	print "attrs=", len(attrs), attrs
         if (attrs[0] == "MATCH"):
             attrList.append("id")
             attrList.append(attrs[3])
@@ -628,6 +622,7 @@ class Translator():
         self.blocks.append(DropTableBlock("initdropmsg", self.indentLevel, "message"))
         self.blocks.append(DropTableBlock("initdropnext", self.indentLevel, "next"))
         self.blocks.append(DropTableBlock("initdropoutcnts", self.indentLevel, "out_cnts"))
+	self.blocks.append(DropTableBlock("initdropincnts", self.indentLevel, "in_cnts"))
         self.blocks.append(DropTableBlock("initdroptoupdate", self.indentLevel, "toupdate"))
         self.blocks.append(DropIndexBlock("initdropsrcindex", self.indentLevel, "idx_src", "edge"))
         self.blocks.append(DropIndexBlock("initdropdestindex", self.indentLevel, "idx_dest", "edge"))

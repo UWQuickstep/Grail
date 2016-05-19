@@ -79,7 +79,7 @@ class SelectIntoExtended(Block):
         if(len(line)!=0):
             self.append(line)
                   
-        if(groupBy != ""):
+        if(groupBy != "" and targetTb != 'message'):
             self.append("GROUP BY "+groupBy)
         self.append(";")
         self.sql=self.sb
