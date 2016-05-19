@@ -6,12 +6,12 @@ ANALYTICS_DIR_OUT = analytics
 GRAIL_OUTPUT = 	$(ANALYTICS_DIR_OUT)/sssp.sql \
 		$(ANALYTICS_DIR_OUT)/pagerank.sql \
 		$(ANALYTICS_DIR_OUT)/wcc.sql\
-		$(ANALYTICS_DIR_OUT)/topo_sort.sql
+		$(ANALYTICS_DIR_OUT)/toposort.sql
 
 GRAIL_INPUT = 	$(ANALYTICS_DIR_IN)/sssp.sql \
 		$(ANALYTICS_DIR_IN)/pagerank.sql \
 		$(ANALYTICS_DIR_IN)/wcc.sql\
-		$(ANALYTICS_DIR_IN)/topo_sort.sql
+		$(ANALYTICS_DIR_IN)/toposort.sql
 
 $DEPS =	CommonDefs.py Grail.py TbNameGen.py ConfigParser.py Main.py \
 	Translator.py FileCacheManager.py Optimizer.py \
