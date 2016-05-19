@@ -4,5 +4,5 @@ InitiateVal : 0
 InitialMessage : (ALL,0)
 CombineMessage: SUM(message)*0.85 + 0.15
 UpdateAndSend:setVal(getAggregationVal())
-send(out, getAggregationVal()/out_cnts.cnt)
+send(out, getAggregationVal()/out_cnts.cnt,out_cnts.cnt > 0)
 End: (ITER, 50)
