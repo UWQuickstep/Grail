@@ -35,7 +35,6 @@ def main(argv):
         print 'test.py -f <inputfile1> -F <inputfile2> -a <graph_algorithm>'
         sys.exit(2)
 	
-    print opts
     for opt, arg in opts:
         if opt == '-h':
             print 'test.py -f <inputfile1> -F <inputfile2>'
