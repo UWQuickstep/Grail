@@ -71,13 +71,13 @@ SELECT *
 SELECT edge.src AS id, toupdate.val AS val
   FROM toupdate, edge
   WHERE edge.dest = toupdate.id 
-  GROUP BY src
     UNION ALL
   
 SELECT edge.dest AS id, toupdate.val AS val
   FROM toupdate, edge
   WHERE edge.src = toupdate.id 
    ) AS Temp
+ ;
 
  DROP TABLE IF EXISTS cur;
 

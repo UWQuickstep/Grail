@@ -332,7 +332,7 @@ class Translator():
                                          + " = " + context + ".id "
                                          + joinStr,
                                          False,
-                                         "src")
+                                         "")
                 flag = 1 - flag
                 attrList = []
                 attrList.append("edge." + attrs[flag] + " AS id")
