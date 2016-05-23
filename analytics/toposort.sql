@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS cur_alias;
+
 DROP TABLE IF EXISTS cur;
 
 DROP TABLE IF EXISTS message;
@@ -36,14 +38,35 @@ INSERT INTO message
 FROM in_cnts
 WHERE cnt=0 );
 
+CREATE INDEX idx_src ON edge(src);
+
 DO $$
 DECLARE
 
 flag integer := -1;
 
+isFirst integer := 1;
 BEGIN
 
 WHILE flag != 0 LOOP
+
+ IF (isFirst = 1)
+ THEN
+ DROP TABLE IF EXISTS cur;
+ CREATE TABLE cur AS
+SELECT message.id AS id, SUM(message.val) AS val
+ FROM message
+ GROUP BY id
+ ;
+ isFirst := 0;
+ ELSE
+ DROP TABLE IF EXISTS message;
+ CREATE TABLE message AS
+SELECT edge.dest AS id, SUM(1) AS val
+ FROM next, cur_alias, edge
+ WHERE next.id = cur_alias.id  AND edge.src = cur_alias.id AND next.val2 is not null
+ ;
+ END IF;
 
  DROP TABLE IF EXISTS cur;
  CREATE TABLE cur AS
@@ -75,14 +98,14 @@ SELECT message.id AS id, SUM(message.val) AS val
 
  DROP TABLE IF EXISTS message;
  CREATE TABLE message AS
-SELECT edge.dest AS id, 1 AS val
+SELECT edge.dest AS id, SUM(1) AS val
  FROM next, cur, edge
  WHERE next.id = cur.id  AND edge.src = cur.id AND next.val2 is not null
  ;
 
  DROP TABLE IF EXISTS cur;
 
- flag := (SELECT COUNT (*) FROM message);
+ flag := (SELECT COUNT (*) FROM next);
 END LOOP;
  
 END $$;

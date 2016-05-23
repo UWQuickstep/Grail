@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS cur_alias;
+
 DROP TABLE IF EXISTS cur;
 
 DROP TABLE IF EXISTS message;
@@ -27,14 +29,35 @@ CREATE TABLE message(
 
 INSERT INTO message VALUES(1, CAST(0 as INT));
 
+CREATE INDEX idx_src ON edge(src);
+
 DO $$
 DECLARE
 
 flag integer := -1;
 
+isFirst integer := 1;
 BEGIN
 
 WHILE flag != 0 LOOP
+
+ IF (isFirst = 1)
+ THEN
+ DROP TABLE IF EXISTS cur;
+ CREATE TABLE cur AS
+SELECT message.id AS id, MIN(message.val) AS val
+ FROM message
+ GROUP BY id
+ ;
+ isFirst := 0;
+ ELSE
+ DROP TABLE IF EXISTS message;
+ CREATE TABLE message AS
+SELECT edge.dest AS id, MIN(toupdate.val + edge.weight) AS val
+ FROM toupdate, edge
+ WHERE edge.src = toupdate.id
+ ;
+ END IF;
 
  DROP TABLE IF EXISTS cur;
  CREATE TABLE cur AS
@@ -62,14 +85,14 @@ SELECT cur.id AS id, cur.val AS val
 
  DROP TABLE IF EXISTS message;
  CREATE TABLE message AS
-SELECT edge.dest AS id, toupdate.val + edge.weight AS val
+SELECT edge.dest AS id, MIN(toupdate.val + edge.weight) AS val
  FROM toupdate, edge
  WHERE edge.src = toupdate.id
  ;
 
  DROP TABLE IF EXISTS cur;
 
- flag := (SELECT COUNT (*) FROM message);
+ flag := (SELECT COUNT (*) FROM toupdate);
 END LOOP;
  
 END $$;

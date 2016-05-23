@@ -29,5 +29,5 @@ class Grail:
         translator=Translator(config)
         translator.translate()
         self.blocks=translator.getBlocks()
-        #op=Optimizer(translator.getConvertedOptions(),self.blocks,translator.getSenders())
-        #op.run()
+        op=Optimizer(translator.getConvertedOptions(),self.blocks,translator.getSenders())
+        op.run()
