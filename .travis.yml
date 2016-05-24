@@ -15,6 +15,8 @@ script:
   - (sudo -u postgres psql -c "CREATE DATABASE travis_ci_test;")
   - (./tests/loadAndTest.sh sssp)
   - (./tests/loadAndTest.sh wcc)
+  - (./tests/loadAndTest.sh toposort)
   - (./tests/loadAndTest.sh pagerank)
+  
 
 

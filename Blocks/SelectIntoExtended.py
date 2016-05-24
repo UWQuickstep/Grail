@@ -55,13 +55,18 @@ class SelectIntoExtended(Block):
                 	line=line+fromList[i]+".id = "+fromList[i+1]+".id "
             	else:
                 	line=line+"AND " + fromList[i] + ".id = " + fromList.get[i+1]+ ".id "              
-            
+            ''' 
             if(len(fromList)>2 and fromList[len(fromList)-2]!="edge" and fromList[len(fromList)-1]=="edge"):
                 if(len(fromList)==2):
                     line=line+fromList[len(fromList)-2]+ ".id = " + fromList[len(fromList) - 1] + ".id"
                 else:
-                    line=line+" AND " + fromList[len(fromList) - 2]+ ".id = " + fromList[len(fromList) - 1] + ".id"
-                     
+		    col = ".id"
+		    if groupBy == "src":
+			col = ".dest"
+		    else:
+			col = ".src"	
+                    line=line+" AND " + fromList[len(fromList) - 2]+ ".id = " + fromList[len(fromList) - 1] + col
+            '''       
             if(pred != ""):
                 if(len(line)==6):
                     line+=pred
@@ -74,7 +79,7 @@ class SelectIntoExtended(Block):
         if(len(line)!=0):
             self.append(line)
                   
-        if(groupBy != ""):
+        if(groupBy != "" and targetTb != 'message'):
             self.append("GROUP BY "+groupBy)
         self.append(";")
         self.sql=self.sb

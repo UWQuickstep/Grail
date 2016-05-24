@@ -27,13 +27,14 @@ def main(argv):
     infile1=""
     infile2=""
     delimiter="|"
+    algo = ""
 
     try:
-        opts, args = getopt.getopt(argv,"hf:F:",["infile1=","infile2="])
+        opts, args = getopt.getopt(argv,"hf:F:a:",["infile1=","infile2=","algorithm="])
     except getopt.GetoptError:
-        print 'test.py -f <inputfile1> -F <inputfile2>'
+        print 'test.py -f <inputfile1> -F <inputfile2> -a <graph_algorithm>'
         sys.exit(2)
-
+	
     for opt, arg in opts:
         if opt == '-h':
             print 'test.py -f <inputfile1> -F <inputfile2>'
@@ -42,22 +43,44 @@ def main(argv):
             infile1 = arg
         elif opt in ("-F", "--infile2"):
             infile2 = arg
+	elif opt in ("-a", "--algorithm"):
+	    algo = arg
 
-
+    print "algo=", algo
     data1 = fileToTuples(infile1,delimiter)
     data2 = fileToTuples(infile2,delimiter)
-    if len(data1) != len(data2):
-        return 1
+    
+    if algo == 'toposort':
+	#dependency verification as multiple topo ordering possible
+	depen_map = dict()
+	for entry in data1:
+		vid = int(entry[0])
+		val = int(entry[1])
+		depen_map[vid] = val
+	
+	for entry in data2:
+		vid = int(entry[0])
+		vertex_rank = depen_map[vid]
+		dependencies = entry[1].split(",")
+		for val in dependencies:
+			depen_rank = depen_map[int(val)]
+			if vertex_rank <= depen_rank:
+				return 1
+	return 0
+
     else:
-        for i,val in enumerate(data1):
-	    if(len(data1[i]) != len(data2[i])):
-	    	return 1;
-            if(data1[i] != data2[i]):
-		if(CommonDefs.INT_MAX in data1[i] or CommonDefs.INT_MAX in data2[i]):
-			return 2
-		else:
-                	return 1
-        return 0
+        if len(data1) != len(data2):
+            return 1
+        else:
+            for i,val in enumerate(data1):
+        	if(len(data1[i]) != len(data2[i])):
+        		return 1
+                if(data1[i] != data2[i]):
+        		if(CommonDefs.INT_MAX in data1[i] or CommonDefs.INT_MAX in data2[i]):
+        			return 2
+        		else:
+                      		return 1
+            return 0
 
 if __name__ == "__main__":
     rc = main(sys.argv[1:])
@@ -66,10 +89,11 @@ if __name__ == "__main__":
 		print 'Input graph is disconnected and the current implementation of WCC does not support disconnected graphs'
 		sys.exit(0)
 	else:
-        	print 'Input files are different'
+        	print 'Actual and Expected outputs are different'
         	sys.exit(1)
     else:
-        print 'Input files are similar'
+
+        print 'Actual and Expected outputs are similar'
         sys.exit(0)
 
 

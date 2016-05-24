@@ -1,0 +1,13 @@
+VertexValType : INT 
+MessageValType : INT
+NextTblSchema :	id,val1,val2
+CreateSeq : my_seq,0
+InitSeq : 'my_seq',0
+InitiateVal : 0,NULL
+InitialMessage : (MATCH,in_cnts,cnt=0,0)
+CombineMessage: SUM(message)
+UpdateAndSend:
+setVal(val1,getAggregationVal()+next.val1)
+setVal(val2,nextval('my_seq'),FROM(in_cnts,cur),CONDN(next.val1 = in_cnts.cnt))
+send(out,1,next.val2 is not null)
+End: NO_MESSAGE

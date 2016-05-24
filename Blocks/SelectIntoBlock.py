@@ -41,4 +41,5 @@ class SelectIntoBlock(Block):
         self.append(op, indent + 1);
         self.concat(temprhs);
         self.append(") AS Temp");
+	self.append(";")
         self.sql = self.sb

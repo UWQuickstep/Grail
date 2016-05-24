@@ -8,6 +8,8 @@ DROP TABLE IF EXISTS next;
 
 DROP TABLE IF EXISTS out_cnts;
 
+DROP TABLE IF EXISTS in_cnts;
+
 DROP TABLE IF EXISTS toupdate;
 
 DROP INDEX IF EXISTS idx_src;
@@ -16,7 +18,7 @@ DROP INDEX IF EXISTS idx_dest;
 
 DROP TABLE IF EXISTS next;
  CREATE TABLE next AS
-SELECT id AS id, CAST(2147483647 AS INT) AS val
+SELECT id AS id, CAST(2147483647 AS INT) AS  val
 FROM vertex
 ;
 
@@ -62,13 +64,13 @@ SELECT id, MIN(val) as val
 SELECT edge.src AS id, toupdate.val AS val
   FROM toupdate, edge
   WHERE edge.dest = toupdate.id 
-  
     UNION ALL
   
 SELECT edge.dest AS id, toupdate.val AS val
   FROM toupdate, edge
   WHERE edge.src = toupdate.id 
    ) AS Temp
+ ;
  GROUP BY id
  ;
  END IF;
@@ -86,7 +88,7 @@ SELECT message.id AS id, MIN(message.val) AS val
  CREATE TABLE toupdate AS
 SELECT cur.id AS id, cur.val AS val
  FROM cur, next
- WHERE cur.val<next.val
+ WHERE cur.id = next.id  AND cur.val<next.val
  ;
 
  UPDATE next SET 
@@ -94,7 +96,8 @@ SELECT cur.id AS id, cur.val AS val
  FROM 
  toupdate
  WHERE 
- next.id=toupdate.id;
+ next.id=toupdate.id
+ ;
 
  DROP TABLE IF EXISTS message;
  CREATE TABLE message AS
@@ -104,13 +107,13 @@ SELECT id, MIN(val) as val
 SELECT edge.src AS id, toupdate.val AS val
   FROM toupdate, edge
   WHERE edge.dest = toupdate.id 
-  
     UNION ALL
   
 SELECT edge.dest AS id, toupdate.val AS val
   FROM toupdate, edge
   WHERE edge.src = toupdate.id 
    ) AS Temp
+ ;
  GROUP BY id
  ;
 
